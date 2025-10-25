@@ -15,7 +15,9 @@ export default function Footer() {
         marginTop: 100,
         paddingTop: 40,
         borderTop: "1px solid rgba(255,255,255,0.1)",
-        textAlign: "center"
+        textAlign: "center",
+        position: "relative",
+        zIndex: 10
       }}
     >
       <p style={{

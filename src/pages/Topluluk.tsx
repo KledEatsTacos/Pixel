@@ -1093,9 +1093,9 @@ export default function Topluluk() {
             ))}
           </div>
         </div>
-
-        <Footer />
       </div>
+
+      <Footer />
 
       {/* Post Preview Modal */}
       <AnimatePresence>
