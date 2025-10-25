@@ -44,7 +44,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     switchToSignup: language === "en" ? "Don't have an account?" : "Hesabınız yok mu?",
     switchToLogin: language === "en" ? "Already have an account?" : "Zaten hesabınız var mı?",
     signupLink: language === "en" ? "Sign up" : "Kayıt ol",
-    loginLink: language === "en" ? "Login" : "Giriş yap"
+    loginLink: language === "en" ? "Login" : "Giriş yap",
+    forgotPassword: language === "en" ? "Forgot password?" : "Şifremi unuttum?"
   };
 
   return (
@@ -246,7 +247,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               </div>
 
               {/* Password */}
-              <div style={{ marginBottom: !isLogin ? 20 : 32 }}>
+              <div style={{ marginBottom: !isLogin ? 20 : 12 }}>
                 <label style={{
                   display: "block",
                   color: "rgba(255,255,255,0.8)",
@@ -307,6 +308,29 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   </motion.button>
                 </div>
               </div>
+
+              {/* Forgot Password (login only) */}
+              {isLogin && (
+                <div style={{ marginBottom: 32, textAlign: "right" }}>
+                  <motion.span
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => {
+                      // TODO: Handle forgot password logic
+                      console.log("Forgot password clicked");
+                    }}
+                    style={{
+                      color: "#667eea",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      display: "inline-block"
+                    }}
+                  >
+                    {labels.forgotPassword}
+                  </motion.span>
+                </div>
+              )}
 
               {/* Confirm Password (signup only) */}
               {!isLogin && (
