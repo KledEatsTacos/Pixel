@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Heart, User, Languages, MapPin, ChevronDown, TrendingUp, Menu, X, Users, ShoppingBag, Briefcase, Home, MessageCircle, Settings } from "lucide-react";
+import { Search, Heart, User, Languages, MapPin, ChevronDown, TrendingUp, Menu, X, Users, ShoppingBag, Briefcase, Home, MessageCircle, Settings, Clock, Eye, MessageSquare, Flame } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useLocation } from "../context/LocationContext";
@@ -12,6 +12,9 @@ export default function Topluluk() {
   const { location, setLocation, availableCities } = useLocation();
   const [showLocationMenu, setShowLocationMenu] = useState(false);
   const [showMainCategories, setShowMainCategories] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<any>(null);
+  const [showCreatePost, setShowCreatePost] = useState(false);
+  const [sortBy, setSortBy] = useState<"newest" | "popular" | "discussed">("newest");
 
   const [selectedMainCategory, setSelectedMainCategory] = useState("community");
   const [selectedCategory, setSelectedCategory] = useState("activities");
@@ -211,6 +214,90 @@ export default function Topluluk() {
         : "Looking for a reliable babysitter. Any recommendations?",
       replies: 15,
       views: 234
+    },
+    {
+      id: "9",
+      category: "activities",
+      title: language === "tr" ? "Bisiklet Turu - Cumartesi" : "Bike Tour - Saturday",
+      author: "CyclingFan",
+      time: language === "tr" ? "1 saat önce" : "1h ago",
+      content: language === "tr"
+        ? "Sahil boyunca bisiklet turu düzenliyoruz. 20km rotamız var. Tüm seviyeler katılabilir!"
+        : "Organizing a bike tour along the coast. 20km route. All levels welcome!",
+      replies: 67,
+      views: 2134
+    },
+    {
+      id: "10",
+      category: "activities",
+      title: language === "tr" ? "Fotoğrafçılık Workshop'u" : "Photography Workshop",
+      author: "PhotoPro",
+      time: language === "tr" ? "30 dakika önce" : "30m ago",
+      content: language === "tr"
+        ? "Başlangıç seviyesi fotoğrafçılık workshop'u düzenliyorum. DSLR kameranızı getirin!"
+        : "Hosting a beginner photography workshop. Bring your DSLR camera!",
+      replies: 89,
+      views: 3421
+    },
+    {
+      id: "11",
+      category: "activities",
+      title: language === "tr" ? "Plaj Voleybolu Maçı" : "Beach Volleyball Match",
+      author: "BeachPlayer",
+      time: language === "tr" ? "15 dakika önce" : "15m ago",
+      content: language === "tr"
+        ? "Pazar günü plaj voleybolu maçı. Takım arkadaşı arıyoruz. Deneyim gerekmez!"
+        : "Beach volleyball match on Sunday. Looking for teammates. No experience needed!",
+      replies: 53,
+      views: 1876
+    },
+    {
+      id: "12",
+      category: "activities",
+      title: language === "tr" ? "Kitap Kulübü Buluşması" : "Book Club Meeting",
+      author: "BookWorm",
+      time: language === "tr" ? "45 dakika önce" : "45m ago",
+      content: language === "tr"
+        ? "Bu ay 'Suç ve Ceza' kitabını okuyoruz. Tartışma için herkesi bekliyoruz!"
+        : "Reading 'Crime and Punishment' this month. Everyone welcome for discussion!",
+      replies: 41,
+      views: 987
+    },
+    {
+      id: "13",
+      category: "activities",
+      title: language === "tr" ? "Açık Hava Sinema Gecesi" : "Outdoor Movie Night",
+      author: "CinemaLover",
+      time: language === "tr" ? "10 dakika önce" : "10m ago",
+      content: language === "tr"
+        ? "Parkta açık hava sinema gecesi! Klasik filmler gösteriyoruz. Battaniyenizi getirin!"
+        : "Outdoor movie night at the park! Showing classic films. Bring your blanket!",
+      replies: 78,
+      views: 2567
+    },
+    {
+      id: "14",
+      category: "activities",
+      title: language === "tr" ? "Koşu Grubu - Sabah 6:00" : "Running Group - 6AM",
+      author: "MorningRunner",
+      time: language === "tr" ? "20 dakika önce" : "20m ago",
+      content: language === "tr"
+        ? "Her sabah 6'da koşuya çıkıyoruz. 5km kolay tempo. Yeni başlayanlar için ideal!"
+        : "Running every morning at 6AM. Easy 5km pace. Perfect for beginners!",
+      replies: 36,
+      views: 1234
+    },
+    {
+      id: "15",
+      category: "activities",
+      title: language === "tr" ? "Dans Dersi - Salsa Başlangıç" : "Dance Class - Beginner Salsa",
+      author: "DanceInstructor",
+      time: language === "tr" ? "5 dakika önce" : "5m ago",
+      content: language === "tr"
+        ? "Salsa dans dersleri başlıyor! Hiç deneyim gerekmez. Partner bulmana yardımcı oluruz!"
+        : "Starting salsa dance classes! No experience needed. We'll help you find a partner!",
+      replies: 92,
+      views: 4123
     }
   ];
 
@@ -220,6 +307,21 @@ export default function Topluluk() {
         post.content.toLowerCase().includes(search.toLowerCase())
       ).filter(post => post.category === selectedCategory)
     : mockPosts.filter(post => post.category === selectedCategory);
+
+  // Sort posts based on selected sorting option
+  const sortedPosts = [...filteredPosts].sort((a, b) => {
+    if (sortBy === "newest") {
+      // Most recent first (by time string)
+      return a.id > b.id ? -1 : 1;
+    } else if (sortBy === "popular") {
+      // Most views first
+      return b.views - a.views;
+    } else if (sortBy === "discussed") {
+      // Most replies first
+      return b.replies - a.replies;
+    }
+    return 0;
+  });
 
   return (
     <div style={{ 
@@ -522,39 +624,15 @@ export default function Topluluk() {
                 opacity: showMainCategories ? 1 : 0,
                 transition: "opacity 0.2s"
               }}>
-                <div style={{ 
-                  display: "flex", 
-                  justifyContent: "space-between", 
-                  alignItems: "center",
+                <h3 style={{ 
+                  fontSize: 20, 
+                  fontWeight: 700, 
+                  color: "#fff",
+                  margin: 0,
                   marginBottom: 24
                 }}>
-                  <h3 style={{ 
-                    fontSize: 20, 
-                    fontWeight: 700, 
-                    color: "#fff",
-                    margin: 0
-                  }}>
-                    {language === "tr" ? "Ana Kategoriler" : "Main Categories"}
-                  </h3>
-                  <motion.button
-                    whileHover={{ scale: 1.1, rotate: 90 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => setShowMainCategories(false)}
-                    style={{
-                      background: "rgba(255,255,255,0.1)",
-                      border: "1px solid rgba(255,255,255,0.2)",
-                      borderRadius: 10,
-                      padding: 6,
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#fff",
-                    }}
-                  >
-                    <X size={16} />
-                  </motion.button>
-                </div>
+                  {language === "tr" ? "Ana Kategoriler" : "Main Categories"}
+                </h3>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {mainCategories.map((mainCat) => {
@@ -714,34 +792,179 @@ export default function Topluluk() {
                 ? communitySubcategories.find(c => c.id === selectedCategory)?.name 
                 : communitySubcategories.find(c => c.id === selectedCategory)?.nameTr}
             </motion.h2>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
+            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+              <motion.button
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setShowCreatePost(true)}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                style={{
+                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  border: "none",
+                  borderRadius: 14,
+                  padding: "12px 24px",
+                  color: "#fff",
+                  fontSize: 14,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  boxShadow: "0 4px 15px rgba(102,126,234,0.4)"
+                }}
+              >
+                <span style={{ fontSize: 18 }}>+</span>
+                {language === "tr" ? "Yeni Gönderi" : "Create Post"}
+              </motion.button>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "rgba(102,126,234,0.15)",
+                  backdropFilter: "blur(10px)",
+                  border: "1px solid rgba(102,126,234,0.3)",
+                  borderRadius: 12,
+                  padding: "10px 16px",
+                  color: "#667eea",
+                  fontSize: 14,
+                  fontWeight: 700
+                }}
+              >
+                <TrendingUp size={18} />
+                {filteredPosts.length} {language === "tr" ? "aktif gönderi" : "active posts"}
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Sorting Toolbar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            style={{
+              display: "flex",
+              gap: 12,
+              marginBottom: 24,
+              flexWrap: "wrap"
+            }}
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setSortBy("newest")}
               style={{
+                background: sortBy === "newest" 
+                  ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" 
+                  : "rgba(255,255,255,0.05)",
+                border: sortBy === "newest" 
+                  ? "1px solid rgba(102,126,234,0.5)"
+                  : "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 12,
+                padding: "10px 18px",
+                color: "#fff",
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
                 gap: 8,
-                background: "rgba(102,126,234,0.15)",
-                backdropFilter: "blur(10px)",
-                border: "1px solid rgba(102,126,234,0.3)",
-                borderRadius: 12,
-                padding: "10px 16px",
-                color: "#667eea",
-                fontSize: 14,
-                fontWeight: 700
+                transition: "all 0.3s"
               }}
             >
-              <TrendingUp size={18} />
-              {filteredPosts.length} {language === "tr" ? "aktif gönderi" : "active posts"}
-            </motion.div>
-          </div>
+              <Clock size={16} />
+              {language === "tr" ? "En Yeni" : "Newest"}
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setSortBy("popular")}
+              style={{
+                background: sortBy === "popular" 
+                  ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" 
+                  : "rgba(255,255,255,0.05)",
+                border: sortBy === "popular" 
+                  ? "1px solid rgba(102,126,234,0.5)"
+                  : "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 12,
+                padding: "10px 18px",
+                color: "#fff",
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                transition: "all 0.3s"
+              }}
+            >
+              <Eye size={16} />
+              {language === "tr" ? "En Popüler" : "Most Popular"}
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setSortBy("discussed")}
+              style={{
+                background: sortBy === "discussed" 
+                  ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" 
+                  : "rgba(255,255,255,0.05)",
+                border: sortBy === "discussed" 
+                  ? "1px solid rgba(102,126,234,0.5)"
+                  : "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 12,
+                padding: "10px 18px",
+                color: "#fff",
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                transition: "all 0.3s"
+              }}
+            >
+              <MessageSquare size={16} />
+              {language === "tr" ? "En Çok Tartışılan" : "Most Discussed"}
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setSortBy("newest")}
+              disabled={sortBy === "newest"}
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 12,
+                padding: "10px 18px",
+                color: "rgba(255,255,255,0.6)",
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                transition: "all 0.3s",
+                marginLeft: "auto"
+              }}
+            >
+              <Flame size={16} />
+              {sortedPosts.length} {language === "tr" ? "gönderi" : "posts"}
+            </motion.button>
+          </motion.div>
 
           <div style={{ 
             display: "grid", 
             gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", 
             gap: 20
           }}>
-            {filteredPosts.map((post, idx) => (
+            {sortedPosts.map((post, idx) => (
               <motion.div
                 key={post.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -751,6 +974,7 @@ export default function Topluluk() {
                   y: -8,
                   boxShadow: "0 20px 50px rgba(102,126,234,0.3)"
                 }}
+                onClick={() => setSelectedPost(post)}
                 style={{
                   background: "rgba(255,255,255,0.05)",
                   backdropFilter: "blur(20px)",
@@ -866,6 +1090,486 @@ export default function Topluluk() {
           </div>
         </div>
       </div>
+
+      {/* Post Preview Modal */}
+      <AnimatePresence>
+        {selectedPost && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedPost(null)}
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: "rgba(0,0,0,0.7)",
+                backdropFilter: "blur(10px)",
+                zIndex: 9999,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              {/* Modal */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: "90%",
+                  maxWidth: 800,
+                  maxHeight: "85vh",
+                  background: "linear-gradient(135deg, rgba(15,12,41,0.98) 0%, rgba(48,43,99,0.98) 100%)",
+                  backdropFilter: "blur(40px)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  borderRadius: 32,
+                  padding: 40,
+                  overflowY: "auto",
+                  boxShadow: "0 30px 90px rgba(0,0,0,0.5)",
+                  position: "relative"
+                }}
+              >
+              {/* Close Button */}
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setSelectedPost(null)}
+                style={{
+                  position: "absolute",
+                  top: 20,
+                  right: 20,
+                  background: "rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  borderRadius: 12,
+                  padding: 10,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                  zIndex: 1
+                }}
+              >
+                <X size={20} />
+              </motion.button>
+
+              {/* Post Header */}
+              <div style={{ marginBottom: 32 }}>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  style={{
+                    display: "inline-block",
+                    background: "rgba(102,126,234,0.2)",
+                    border: "1px solid rgba(102,126,234,0.4)",
+                    borderRadius: 12,
+                    padding: "8px 16px",
+                    marginBottom: 20,
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: "#667eea",
+                    textTransform: "capitalize"
+                  }}
+                >
+                  {language === "en" 
+                    ? communitySubcategories.find(c => c.id === selectedPost.category)?.name
+                    : communitySubcategories.find(c => c.id === selectedPost.category)?.nameTr}
+                </motion.div>
+
+                <motion.h2
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15 }}
+                  style={{
+                    fontSize: 36,
+                    fontWeight: 800,
+                    color: "#fff",
+                    margin: 0,
+                    marginBottom: 20,
+                    lineHeight: 1.2
+                  }}
+                >
+                  {selectedPost.title}
+                </motion.h2>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 20,
+                    flexWrap: "wrap"
+                  }}
+                >
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    fontSize: 15,
+                    color: "rgba(255,255,255,0.8)",
+                    fontWeight: 600
+                  }}>
+                    <div style={{
+                      background: "rgba(102,126,234,0.2)",
+                      borderRadius: 10,
+                      padding: 8,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}>
+                      <User size={16} color="#667eea" />
+                    </div>
+                    {selectedPost.author}
+                  </div>
+                  <div style={{ fontSize: 14, color: "rgba(255,255,255,0.6)" }}>
+                    {selectedPost.time}
+                  </div>
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    fontSize: 14,
+                    color: "rgba(255,255,255,0.6)",
+                    fontWeight: 600
+                  }}>
+                    💬 {selectedPost.replies} {language === "tr" ? "yanıt" : "replies"}
+                  </div>
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    fontSize: 14,
+                    color: "rgba(255,255,255,0.6)",
+                    fontWeight: 600
+                  }}>
+                    👁️ {selectedPost.views} {language === "tr" ? "görüntülenme" : "views"}
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Post Content */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                style={{
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: 20,
+                  padding: 30,
+                  marginBottom: 30
+                }}
+              >
+                <p style={{
+                  fontSize: 16,
+                  lineHeight: 1.8,
+                  color: "rgba(255,255,255,0.9)",
+                  margin: 0,
+                  fontWeight: 500
+                }}>
+                  {selectedPost.content}
+                </p>
+              </motion.div>
+
+              {/* Action Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                style={{
+                  display: "flex",
+                  gap: 16,
+                  flexWrap: "wrap"
+                }}
+              >
+                <motion.button
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  style={{
+                    flex: 1,
+                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    border: "none",
+                    borderRadius: 16,
+                    padding: "16px 32px",
+                    color: "#fff",
+                    fontSize: 15,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10
+                  }}
+                >
+                  <MessageCircle size={20} />
+                  {language === "tr" ? "Yanıtla" : "Reply"}
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  style={{
+                    background: "rgba(255,255,255,0.1)",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    borderRadius: 16,
+                    padding: "16px 32px",
+                    color: "#fff",
+                    fontSize: 15,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10
+                  }}
+                >
+                  <Heart size={20} />
+                  {language === "tr" ? "Kaydet" : "Save"}
+                </motion.button>
+              </motion.div>
+              </motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Create Post Modal */}
+      <AnimatePresence>
+        {showCreatePost && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowCreatePost(false)}
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: "rgba(0,0,0,0.7)",
+                backdropFilter: "blur(10px)",
+                zIndex: 9999,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              {/* Modal */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: "90%",
+                  maxWidth: 700,
+                  maxHeight: "85vh",
+                  background: "linear-gradient(135deg, rgba(15,12,41,0.98) 0%, rgba(48,43,99,0.98) 100%)",
+                  backdropFilter: "blur(40px)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  borderRadius: 32,
+                  padding: 40,
+                  overflowY: "auto",
+                  boxShadow: "0 30px 90px rgba(0,0,0,0.5)",
+                  position: "relative"
+                }}
+              >
+                {/* Close Button */}
+                <motion.button
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setShowCreatePost(false)}
+                  style={{
+                    position: "absolute",
+                    top: 20,
+                    right: 20,
+                    background: "rgba(255,255,255,0.1)",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    borderRadius: 12,
+                    padding: 10,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#fff",
+                    zIndex: 1
+                  }}
+                >
+                  <X size={20} />
+                </motion.button>
+
+                {/* Form */}
+                <motion.h2
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{
+                    fontSize: 32,
+                    fontWeight: 800,
+                    color: "#fff",
+                    margin: 0,
+                    marginBottom: 30,
+                    lineHeight: 1.2
+                  }}
+                >
+                  {language === "tr" ? "Yeni Gönderi Oluştur" : "Create New Post"}
+                </motion.h2>
+
+                <motion.form
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  style={{ display: "flex", flexDirection: "column", gap: 24 }}
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  {/* Title Input */}
+                  <div>
+                    <label style={{
+                      display: "block",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: "rgba(255,255,255,0.8)",
+                      marginBottom: 8
+                    }}>
+                      {language === "tr" ? "Başlık" : "Title"}
+                    </label>
+                    <input
+                      type="text"
+                      placeholder={language === "tr" ? "Gönderiniz için bir başlık girin..." : "Enter a title for your post..."}
+                      style={{
+                        width: "100%",
+                        background: "rgba(255,255,255,0.05)",
+                        border: "1px solid rgba(255,255,255,0.2)",
+                        borderRadius: 14,
+                        padding: "14px 18px",
+                        color: "#fff",
+                        fontSize: 15,
+                        fontWeight: 500,
+                        outline: "none",
+                        transition: "all 0.3s"
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#667eea";
+                        e.target.style.background = "rgba(102,126,234,0.1)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "rgba(255,255,255,0.2)";
+                        e.target.style.background = "rgba(255,255,255,0.05)";
+                      }}
+                    />
+                  </div>
+
+                  {/* Category Select */}
+                  <div>
+                    <label style={{
+                      display: "block",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: "rgba(255,255,255,0.8)",
+                      marginBottom: 8
+                    }}>
+                      {language === "tr" ? "Kategori" : "Category"}
+                    </label>
+                    <select
+                      style={{
+                        width: "100%",
+                        background: "rgba(255,255,255,0.05)",
+                        border: "1px solid rgba(255,255,255,0.2)",
+                        borderRadius: 14,
+                        padding: "14px 18px",
+                        color: "#fff",
+                        fontSize: 15,
+                        fontWeight: 500,
+                        outline: "none",
+                        cursor: "pointer"
+                      }}
+                    >
+                      {communitySubcategories.map((cat) => (
+                        <option key={cat.id} value={cat.id} style={{ background: "#1e1e3c" }}>
+                          {language === "en" ? cat.name : cat.nameTr}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Content Textarea */}
+                  <div>
+                    <label style={{
+                      display: "block",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: "rgba(255,255,255,0.8)",
+                      marginBottom: 8
+                    }}>
+                      {language === "tr" ? "İçerik" : "Content"}
+                    </label>
+                    <textarea
+                      placeholder={language === "tr" ? "Gönderinizin içeriğini yazın..." : "Write your post content..."}
+                      rows={6}
+                      style={{
+                        width: "100%",
+                        background: "rgba(255,255,255,0.05)",
+                        border: "1px solid rgba(255,255,255,0.2)",
+                        borderRadius: 14,
+                        padding: "14px 18px",
+                        color: "#fff",
+                        fontSize: 15,
+                        fontWeight: 500,
+                        outline: "none",
+                        resize: "vertical",
+                        fontFamily: "inherit",
+                        lineHeight: 1.6
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#667eea";
+                        e.target.style.background = "rgba(102,126,234,0.1)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "rgba(255,255,255,0.2)";
+                        e.target.style.background = "rgba(255,255,255,0.05)";
+                      }}
+                    />
+                  </div>
+
+                  {/* Submit Button */}
+                  <motion.button
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    style={{
+                      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      border: "none",
+                      borderRadius: 16,
+                      padding: "16px 32px",
+                      color: "#fff",
+                      fontSize: 16,
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      boxShadow: "0 4px 20px rgba(102,126,234,0.4)",
+                      marginTop: 10
+                    }}
+                  >
+                    {language === "tr" ? "Gönderiyi Yayınla" : "Publish Post"}
+                  </motion.button>
+                </motion.form>
+              </motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
