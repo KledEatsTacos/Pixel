@@ -218,24 +218,15 @@ export default function Explore() {
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(320px, 1fr))",
           gap: isMobile ? 16 : 24,
-          overflow: "hidden"
+          padding: "20px 0"
         }}>
           {listings.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 + index * 0.1 }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-10px)";
-                e.currentTarget.style.boxShadow = "0 20px 60px rgba(102, 126, 234, 0.3)";
-                e.currentTarget.style.filter = "brightness(1.1)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.3)";
-                e.currentTarget.style.filter = "brightness(1)";
-              }}
+              transition={{ delay: 0.6 + index * 0.1, duration: 0.5 }}
+              className="listing-card"
               style={{
                 background: "rgba(255,255,255,0.05)",
                 backdropFilter: "blur(20px)",
@@ -243,17 +234,14 @@ export default function Explore() {
                 borderRadius: isMobile ? 16 : 20,
                 overflow: "hidden",
                 cursor: "pointer",
-                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
-                transition: "transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease"
+                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)"
               }}
             >
-              <div style={{ width: "100%", height: isMobile ? 180 : 220, overflow: "hidden" }}>
+              <div style={{ width: "100%", height: isMobile ? 180 : 220, overflow: "hidden", borderRadius: `${isMobile ? 16 : 20}px ${isMobile ? 16 : 20}px 0 0` }}>
                 <img 
                   src={item.image} 
                   alt={item.title} 
-                  style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.2s ease" }} 
-                  onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} 
                 />
               </div>
               

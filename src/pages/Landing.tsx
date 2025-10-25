@@ -513,18 +513,22 @@ export default function Landing() {
                   {language === "en" ? `Events in ${location}` : `${location} etkinlikleri`}
                 </p>
               </div>
-              <motion.a
+              <motion.button
                 whileHover={{ scale: 1.05 }}
-                href="#all-events"
+                onClick={() => navigate("/topluluk")}
                 style={{
                   color: "#667eea",
                   fontSize: 14,
                   fontWeight: 600,
-                  textDecoration: "none"
+                  textDecoration: "none",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0
                 }}
               >
                 {language === "en" ? "View All" : "Tümünü Gör"}
-              </motion.a>
+              </motion.button>
             </div>
 
             {/* Event Cards - Horizontal Scroll */}
