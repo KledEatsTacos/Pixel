@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Heart, User, Languages, ArrowLeft, MapPin, ChevronDown, TrendingUp } from "lucide-react";
+import { Search, Heart, User, Languages, MapPin, ChevronDown, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useLocation } from "../context/LocationContext";
@@ -191,29 +191,6 @@ export default function Topluluk() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <motion.button
-            whileHover={{ scale: 1.05, x: -3 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate("/")}
-            style={{
-              background: "rgba(255,255,255,0.1)",
-              backdropFilter: "blur(20px)",
-              border: "1px solid rgba(255,255,255,0.2)",
-              borderRadius: 12,
-              padding: "10px 16px",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              color: "#fff",
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-          >
-            <ArrowLeft size={18} />
-            {language === "tr" ? "Geri" : "Back"}
-          </motion.button>
-          
           <motion.div 
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate("/")}
