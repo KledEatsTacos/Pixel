@@ -1,0 +1,18 @@
+/* Minimal styles so the UI looks acceptable without Tailwind */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: #f8fafc;
+}
+
+.card-base {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  overflow: hidden;
+}
+
+.card-content {
+  padding: 12px;
+}
