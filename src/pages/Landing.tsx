@@ -41,6 +41,22 @@ export default function Landing() {
         date: "15 Oct - 20 Nov",
         price: "$50",
         image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"
+      },
+      {
+        id: 4,
+        title: "Comedy Night Live",
+        venue: "Madison Square Garden",
+        date: "10 Nov - 18 Nov",
+        price: "$85",
+        image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=400"
+      },
+      {
+        id: 5,
+        title: "Tech Conference 2025",
+        venue: "Javits Center",
+        date: "05 Nov - 12 Nov",
+        price: "$200",
+        image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=400"
       }
     ],
     "london": [
@@ -67,6 +83,22 @@ export default function Landing() {
         date: "01 Nov - 24 Dec",
         price: "Free",
         image: "https://images.unsplash.com/photo-1576566686474-ff63a55aee5d?w=400"
+      },
+      {
+        id: 4,
+        title: "Shakespeare Festival",
+        venue: "Globe Theatre",
+        date: "08 Nov - 22 Nov",
+        price: "£65",
+        image: "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=400"
+      },
+      {
+        id: 5,
+        title: "Food Truck Festival",
+        venue: "Camden Market",
+        date: "12 Nov - 19 Nov",
+        price: "£20",
+        image: "https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?w=400"
       }
     ],
     "tokyo": [
@@ -93,6 +125,22 @@ export default function Landing() {
         date: "15 Oct - 25 Nov",
         price: "¥12000",
         image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400"
+      },
+      {
+        id: 4,
+        title: "Ramen Festival",
+        venue: "Shibuya Square",
+        date: "18 Nov - 25 Nov",
+        price: "¥5000",
+        image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400"
+      },
+      {
+        id: 5,
+        title: "Gaming Expo",
+        venue: "Tokyo Big Sight",
+        date: "02 Nov - 09 Nov",
+        price: "¥9000",
+        image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400"
       }
     ],
     "paris": [
@@ -119,6 +167,22 @@ export default function Landing() {
         date: "05 Nov - 20 Nov",
         price: "€90",
         image: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=400"
+      },
+      {
+        id: 4,
+        title: "Street Art Tour",
+        venue: "Montmartre",
+        date: "14 Nov - 28 Nov",
+        price: "€35",
+        image: "https://images.unsplash.com/photo-1499781350541-7783f6c6a0c8?w=400"
+      },
+      {
+        id: 5,
+        title: "Culinary Workshop",
+        venue: "Le Cordon Bleu",
+        date: "20 Nov - 30 Nov",
+        price: "€120",
+        image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400"
       }
     ]
   };
@@ -465,7 +529,7 @@ export default function Landing() {
           style={{
             marginTop: 100,
             display: "grid",
-            gridTemplateColumns: "350px 1fr",
+            gridTemplateColumns: "350px minmax(0, 1fr)",
             gap: 32,
             alignItems: "start"
           }}
@@ -654,12 +718,13 @@ export default function Landing() {
             <div style={{
               overflowX: "auto",
               overflowY: "visible",
-              paddingBottom: 50,
+              paddingBottom: 10,
               paddingTop: 30,
-              marginBottom: -50,
+              marginBottom: -10,
               marginTop: -30,
               scrollbarWidth: "thin",
-              scrollbarColor: "rgba(102,126,234,0.5) transparent"
+              scrollbarColor: "rgba(102,126,234,0.5) transparent",
+              width: "100%"
             }}>
               <div style={{
                 display: "flex",
@@ -667,7 +732,8 @@ export default function Landing() {
                 paddingLeft: 30,
                 paddingRight: 30,
                 paddingTop: 30,
-                paddingBottom: 50
+                paddingBottom: 20,
+                width: "max-content"
               }}>
               {currentEvents.map((event, index) => (
                 <motion.div
