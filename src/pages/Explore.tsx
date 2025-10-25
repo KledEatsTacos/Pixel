@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MapPin, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
@@ -15,6 +15,18 @@ export default function Explore() {
   const { language, setLanguage, t } = useLanguage();
   const { location, setLocation, availableCities } = useLocation();
   const [showLocationMenu, setShowLocationMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(globalThis.window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    globalThis.window.addEventListener('resize', checkMobile);
+    
+    return () => globalThis.window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const categories = [
     { name: t("community"), icon: "🤝", color: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", path: "/topluluk" },
@@ -115,16 +127,16 @@ export default function Explore() {
         zIndex: 1,
         maxWidth: 1400,
         margin: "0 auto",
-        padding: "40px 48px"
+        padding: isMobile ? "24px 20px" : "40px 48px"
       }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: 16,
-            marginBottom: 60
+            gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: isMobile ? 12 : 16,
+            marginBottom: isMobile ? 40 : 60
           }}
         >
           {categories.map((cat, index) => (
@@ -139,8 +151,8 @@ export default function Explore() {
                 background: "rgba(255,255,255,0.05)",
                 backdropFilter: "blur(20px)",
                 border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: 20,
-                padding: 24,
+                borderRadius: isMobile ? 16 : 20,
+                padding: isMobile ? 20 : 24,
                 cursor: "pointer",
                 position: "relative",
                 overflow: "hidden",
@@ -160,8 +172,8 @@ export default function Explore() {
               }} />
               
               <div style={{ position: "relative", zIndex: 1 }}>
-                <div style={{ fontSize: 36, marginBottom: 12 }}>{cat.icon}</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>
+                <div style={{ fontSize: isMobile ? 32 : 36, marginBottom: 12 }}>{cat.icon}</div>
+                <div style={{ fontSize: isMobile ? 15 : 16, fontWeight: 700, color: "#fff" }}>
                   {cat.name}
                 </div>
               </div>
@@ -180,20 +192,20 @@ export default function Explore() {
             backdropFilter: "blur(10px)",
             border: "1px solid rgba(102,126,234,0.3)",
             borderRadius: 50,
-            padding: "8px 20px",
-            marginBottom: 32
+            padding: isMobile ? "6px 16px" : "8px 20px",
+            marginBottom: isMobile ? 20 : 32
           }}
         >
-          <TrendingUp size={16} color="#667eea" />
-          <span style={{ color: "#667eea", fontSize: 14, fontWeight: 600 }}>
+          <TrendingUp size={isMobile ? 14 : 16} color="#667eea" />
+          <span style={{ color: "#667eea", fontSize: isMobile ? 12 : 14, fontWeight: 600 }}>
             {language === "en" ? "Trending Listings" : "Popüler İlanlar"}
           </span>
         </motion.div>
 
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-          gap: 24
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(320px, 1fr))",
+          gap: isMobile ? 16 : 24
         }}>
           {listings.map((item, index) => (
             <motion.div
@@ -206,12 +218,12 @@ export default function Explore() {
                 background: "rgba(255,255,255,0.05)",
                 backdropFilter: "blur(20px)",
                 border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: 20,
+                borderRadius: isMobile ? 16 : 20,
                 overflow: "hidden",
                 cursor: "pointer"
               }}
             >
-              <div style={{ width: "100%", height: 220, overflow: "hidden" }}>
+              <div style={{ width: "100%", height: isMobile ? 180 : 220, overflow: "hidden" }}>
                 <img 
                   src={item.image} 
                   alt={item.title} 
@@ -221,17 +233,17 @@ export default function Explore() {
                 />
               </div>
               
-              <div style={{ padding: 24 }}>
-                <h3 style={{ fontWeight: 700, fontSize: 18, marginBottom: 8, color: "#fff" }}>
+              <div style={{ padding: isMobile ? 16 : 24 }}>
+                <h3 style={{ fontWeight: 700, fontSize: isMobile ? 16 : 18, marginBottom: 8, color: "#fff" }}>
                   {item.title}
                 </h3>
                 
-                <p style={{ color: "#667eea", fontWeight: 700, fontSize: 20, marginBottom: 12 }}>
+                <p style={{ color: "#667eea", fontWeight: 700, fontSize: isMobile ? 18 : 20, marginBottom: 12 }}>
                   {item.price}
                 </p>
                 
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.6)", fontSize: 14 }}>
-                  <MapPin size={16} />
+                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.6)", fontSize: isMobile ? 13 : 14 }}>
+                  <MapPin size={isMobile ? 14 : 16} />
                   <span style={{ textTransform: "capitalize" }}>{item.location}</span>
                 </div>
               </div>

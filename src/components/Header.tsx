@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { MapPin, Languages, ChevronDown, User, Search } from "lucide-react";
@@ -24,6 +24,18 @@ export default function Header({
   const { language, setLanguage } = useLanguage();
   const { location, setLocation, availableCities } = useLocation();
   const [showLocationMenu, setShowLocationMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(globalThis.window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    globalThis.window.addEventListener('resize', checkMobile);
+    
+    return () => globalThis.window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <motion.header 
@@ -31,10 +43,12 @@ export default function Header({
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
       style={{ 
-        padding: "32px 64px",
+        padding: isMobile ? "16px 20px" : "32px 64px",
         display: "flex",
+        flexDirection: isMobile ? "column" : "row",
         justifyContent: "space-between",
-        alignItems: "center",
+        alignItems: isMobile ? "flex-start" : "center",
+        gap: isMobile ? 16 : 0,
         position: "relative",
         zIndex: 10,
         borderBottom: "1px solid rgba(255,255,255,0.1)"
@@ -46,7 +60,7 @@ export default function Header({
         style={{ display: "flex", alignItems: "center", gap: 12, cursor: "pointer" }}
       >
         <h2 style={{ 
-          fontSize: 28, 
+          fontSize: isMobile ? 22 : 28, 
           fontWeight: 800, 
           background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           WebkitBackgroundClip: "text",
@@ -62,20 +76,21 @@ export default function Header({
       {showSearch && (
         <div style={{
           flex: 1,
-          maxWidth: 600,
-          margin: "0 40px"
+          maxWidth: isMobile ? "100%" : 600,
+          margin: isMobile ? 0 : "0 40px",
+          width: isMobile ? "100%" : "auto"
         }}>
           <div style={{
             background: "rgba(255,255,255,0.1)",
             backdropFilter: "blur(20px)",
             border: "1px solid rgba(255,255,255,0.2)",
-            borderRadius: 16,
-            padding: "14px 20px",
+            borderRadius: isMobile ? 12 : 16,
+            padding: isMobile ? "10px 16px" : "14px 20px",
             display: "flex",
             alignItems: "center",
             gap: 12
           }}>
-            <Search size={20} color="rgba(255,255,255,0.7)" />
+            <Search size={isMobile ? 18 : 20} color="rgba(255,255,255,0.7)" />
             <input
               type="text"
               placeholder={searchPlaceholder || (language === "en" ? "Search..." : "Ara...")}
@@ -87,7 +102,7 @@ export default function Header({
                 outline: "none",
                 flex: 1,
                 color: "#fff",
-                fontSize: 15,
+                fontSize: isMobile ? 14 : 15,
                 fontWeight: 500
               }}
             />
@@ -95,9 +110,15 @@ export default function Header({
         </div>
       )}
 
-      <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+      <div style={{ 
+        display: "flex", 
+        gap: isMobile ? 8 : 16, 
+        alignItems: "center",
+        flexWrap: isMobile ? "wrap" : "nowrap",
+        width: isMobile ? "100%" : "auto"
+      }}>
         {/* Location Dropdown */}
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", flex: isMobile ? "1 1 auto" : "0 0 auto" }}>
           <motion.button
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.98 }}
@@ -106,22 +127,23 @@ export default function Header({
               background: "rgba(255,255,255,0.1)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(255,255,255,0.2)",
-              borderRadius: 16,
-              padding: "12px 20px",
+              borderRadius: isMobile ? 12 : 16,
+              padding: isMobile ? "10px 14px" : "12px 20px",
               color: "#fff",
-              fontSize: 14,
+              fontSize: isMobile ? 13 : 14,
               fontWeight: 600,
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
-              gap: 10,
+              gap: isMobile ? 6 : 10,
               textTransform: "capitalize",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.1)"
+              boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+              width: isMobile ? "100%" : "auto"
             }}
           >
-            <MapPin size={18} />
+            <MapPin size={isMobile ? 16 : 18} />
             {location}
-            <ChevronDown size={18} style={{ 
+            <ChevronDown size={isMobile ? 16 : 18} style={{ 
               transform: showLocationMenu ? "rotate(180deg)" : "rotate(0deg)",
               transition: "transform 0.3s"
             }} />
@@ -192,19 +214,20 @@ export default function Header({
             background: "rgba(255,255,255,0.1)",
             backdropFilter: "blur(20px)",
             border: "1px solid rgba(255,255,255,0.2)",
-            borderRadius: 16,
-            padding: "12px 20px",
+            borderRadius: isMobile ? 12 : 16,
+            padding: isMobile ? "10px 14px" : "12px 20px",
             color: "#fff",
-            fontSize: 14,
+            fontSize: isMobile ? 13 : 14,
             fontWeight: 700,
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
-            gap: 10,
-            boxShadow: "0 8px 32px rgba(0,0,0,0.1)"
+            gap: isMobile ? 6 : 10,
+            boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+            flex: isMobile ? "1 1 auto" : "0 0 auto"
           }}
         >
-          <Languages size={18} />
+          <Languages size={isMobile ? 16 : 18} />
           {language.toUpperCase()}
         </motion.button>
 
@@ -216,21 +239,22 @@ export default function Header({
           style={{
             background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
             border: "none",
-            borderRadius: 16,
-            padding: "12px 24px",
+            borderRadius: isMobile ? 12 : 16,
+            padding: isMobile ? "10px 20px" : "12px 24px",
             color: "#fff",
-            fontSize: 14,
+            fontSize: isMobile ? 13 : 14,
             fontWeight: 700,
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: 10,
+            gap: isMobile ? 6 : 10,
             boxShadow: "0 8px 32px rgba(102,126,234,0.3)",
-            width: 140
+            width: isMobile ? "100%" : 140,
+            flex: isMobile ? "0 0 100%" : "0 0 auto"
           }}
         >
-          <User size={18} />
+          <User size={isMobile ? 16 : 18} />
           {language === "en" ? "Login" : "Giriş Yap"}
         </motion.button>
       </div>

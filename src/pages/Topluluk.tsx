@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Heart, User, Languages, MapPin, ChevronDown, TrendingUp, Menu, X, Users, ShoppingBag, Briefcase, Home, MessageCircle, Settings, Clock, Eye, MessageSquare, Flame } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,9 +19,20 @@ export default function Topluluk() {
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [sortBy, setSortBy] = useState<"newest" | "popular" | "discussed">("newest");
+  const [isMobile, setIsMobile] = useState(false);
 
   const [selectedMainCategory, setSelectedMainCategory] = useState("community");
   const [selectedCategory, setSelectedCategory] = useState("activities");
+
+  // Handle window resize for responsive design
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(globalThis.window.innerWidth < 768);
+    };
+    handleResize(); // Initial check
+    globalThis.window.addEventListener('resize', handleResize);
+    return () => globalThis.window.removeEventListener('resize', handleResize);
+  }, []);
 
   const mainCategories = [
     { 
@@ -373,13 +384,15 @@ export default function Topluluk() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
         style={{ 
-          padding: "24px 48px",
+          padding: window.innerWidth < 768 ? "16px 20px" : "24px 48px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           position: "relative",
           zIndex: 10,
-          borderBottom: "1px solid rgba(255,255,255,0.1)"
+          borderBottom: "1px solid rgba(255,255,255,0.1)",
+          flexWrap: window.innerWidth < 768 ? "wrap" : "nowrap",
+          gap: window.innerWidth < 768 ? 16 : 0
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
@@ -409,7 +422,7 @@ export default function Topluluk() {
             style={{ display: "flex", alignItems: "center", gap: 12, cursor: "pointer" }}
           >
             <h2 style={{ 
-              fontSize: 28, 
+              fontSize: window.innerWidth < 768 ? 20 : 28, 
               fontWeight: 800, 
               background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
               WebkitBackgroundClip: "text",
@@ -424,8 +437,10 @@ export default function Topluluk() {
 
         <div style={{
           flex: 1,
-          maxWidth: 600,
-          margin: "0 40px"
+          maxWidth: window.innerWidth < 768 ? "100%" : 600,
+          margin: window.innerWidth < 768 ? "0" : "0 40px",
+          order: window.innerWidth < 768 ? 3 : 0,
+          width: window.innerWidth < 768 ? "100%" : "auto"
         }}>
           <div style={{
             background: "rgba(255,255,255,0.1)",
@@ -456,7 +471,7 @@ export default function Topluluk() {
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+        <div style={{ display: "flex", gap: window.innerWidth < 768 ? 8 : 16, alignItems: "center", flexWrap: "wrap" }}>
           <div style={{ position: "relative" }}>
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
@@ -467,20 +482,20 @@ export default function Topluluk() {
                 backdropFilter: "blur(20px)",
                 border: "1px solid rgba(255,255,255,0.2)",
                 borderRadius: 16,
-                padding: "12px 20px",
+                padding: window.innerWidth < 768 ? "8px 12px" : "12px 20px",
                 color: "#fff",
-                fontSize: 14,
+                fontSize: window.innerWidth < 768 ? 12 : 14,
                 fontWeight: 600,
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
-                gap: 10,
+                gap: window.innerWidth < 768 ? 6 : 10,
                 textTransform: "capitalize"
               }}
             >
-              <MapPin size={18} />
+              <MapPin size={window.innerWidth < 768 ? 14 : 18} />
               {location}
-              <ChevronDown size={18} style={{ 
+              <ChevronDown size={window.innerWidth < 768 ? 14 : 18} style={{ 
                 transform: showLocationMenu ? "rotate(180deg)" : "rotate(0deg)",
                 transition: "transform 0.3s"
               }} />
@@ -545,17 +560,17 @@ export default function Topluluk() {
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(255,255,255,0.2)",
               borderRadius: 16,
-              padding: "12px 20px",
+              padding: window.innerWidth < 768 ? "8px 12px" : "12px 20px",
               color: "#fff",
-              fontSize: 14,
+              fontSize: window.innerWidth < 768 ? 12 : 14,
               fontWeight: 700,
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
-              gap: 10
+              gap: window.innerWidth < 768 ? 6 : 10
             }}
           >
-            <Languages size={18} />
+            <Languages size={window.innerWidth < 768 ? 14 : 18} />
             {language.toUpperCase()}
           </motion.button>
 
@@ -567,12 +582,13 @@ export default function Topluluk() {
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(255,255,255,0.2)",
               borderRadius: 12,
-              padding: 10,
+              padding: window.innerWidth < 768 ? 8 : 10,
               color: "#fff",
-              cursor: "pointer"
+              cursor: "pointer",
+              display: window.innerWidth < 768 ? "none" : "flex"
             }}
           >
-            <Heart size={20} />
+            <Heart size={window.innerWidth < 768 ? 16 : 20} />
           </motion.button>
 
           <motion.button
@@ -583,12 +599,13 @@ export default function Topluluk() {
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(255,255,255,0.2)",
               borderRadius: 12,
-              padding: 10,
+              padding: window.innerWidth < 768 ? 8 : 10,
               color: "#fff",
-              cursor: "pointer"
+              cursor: "pointer",
+              display: window.innerWidth < 768 ? "none" : "flex"
             }}
           >
-            <User size={20} />
+            <User size={window.innerWidth < 768 ? 16 : 20} />
           </motion.button>
         </div>
       </motion.header>
@@ -596,11 +613,12 @@ export default function Topluluk() {
       {/* Main Content */}
       <div style={{ 
         display: "flex", 
-        padding: "32px 48px", 
-        gap: 32,
+        padding: window.innerWidth < 768 ? "16px 20px" : "32px 48px", 
+        gap: window.innerWidth < 768 ? 0 : 32,
         position: "relative",
         zIndex: 1,
-        transition: "all 0.3s ease"
+        transition: "all 0.3s ease",
+        flexDirection: window.innerWidth < 768 ? "column" : "row"
       }}>
         {/* Main Categories Sidebar */}
         <AnimatePresence>
@@ -708,27 +726,28 @@ export default function Topluluk() {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           style={{ 
-            width: 280,
+            width: window.innerWidth < 768 ? "100%" : 280,
             background: "rgba(255,255,255,0.05)",
             backdropFilter: "blur(20px)",
             border: "1px solid rgba(255,255,255,0.1)",
             borderRadius: 24,
-            padding: 24,
+            padding: window.innerWidth < 768 ? 16 : 24,
             height: "fit-content",
-            position: "sticky",
-            top: 120
+            position: window.innerWidth < 768 ? "relative" : "sticky",
+            top: window.innerWidth < 768 ? 0 : 120,
+            marginBottom: window.innerWidth < 768 ? 20 : 0
           }}
         >
           <h3 style={{ 
-            fontSize: 20, 
+            fontSize: window.innerWidth < 768 ? 16 : 20, 
             fontWeight: 700, 
             color: "#fff",
-            marginBottom: 20,
+            marginBottom: window.innerWidth < 768 ? 12 : 20,
             marginTop: 0
           }}>
             {language === "tr" ? "Kategoriler" : "Categories"}
           </h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "flex", flexDirection: window.innerWidth < 768 ? "row" : "column", gap: 8, flexWrap: window.innerWidth < 768 ? "wrap" : "nowrap" }}>
             {communitySubcategories.map((sub) => (
               <motion.div
                 key={sub.id}
@@ -778,14 +797,16 @@ export default function Topluluk() {
           <div style={{ 
             display: "flex", 
             justifyContent: "space-between", 
-            alignItems: "center",
-            marginBottom: 28
+            alignItems: window.innerWidth < 768 ? "flex-start" : "center",
+            marginBottom: window.innerWidth < 768 ? 16 : 28,
+            flexDirection: window.innerWidth < 768 ? "column" : "row",
+            gap: window.innerWidth < 768 ? 12 : 0
           }}>
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{ 
-                fontSize: 32, 
+                fontSize: window.innerWidth < 768 ? 24 : 32, 
                 fontWeight: 800,
                 color: "#fff",
                 margin: 0,
@@ -796,7 +817,7 @@ export default function Topluluk() {
                 ? communitySubcategories.find(c => c.id === selectedCategory)?.name 
                 : communitySubcategories.find(c => c.id === selectedCategory)?.nameTr}
             </motion.h2>
-            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <div style={{ display: "flex", gap: window.innerWidth < 768 ? 8 : 12, alignItems: "center", flexWrap: "wrap", width: window.innerWidth < 768 ? "100%" : "auto" }}>
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98 }}
@@ -807,15 +828,16 @@ export default function Topluluk() {
                   background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                   border: "none",
                   borderRadius: 14,
-                  padding: "12px 24px",
+                  padding: window.innerWidth < 768 ? "10px 16px" : "12px 24px",
                   color: "#fff",
-                  fontSize: 14,
+                  fontSize: window.innerWidth < 768 ? 12 : 14,
                   fontWeight: 700,
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
                   gap: 8,
-                  boxShadow: "0 4px 15px rgba(102,126,234,0.4)"
+                  boxShadow: "0 4px 15px rgba(102,126,234,0.4)",
+                  flex: window.innerWidth < 768 ? 1 : "none"
                 }}
               >
                 <span style={{ fontSize: 18 }}>+</span>
@@ -832,13 +854,14 @@ export default function Topluluk() {
                   backdropFilter: "blur(10px)",
                   border: "1px solid rgba(102,126,234,0.3)",
                   borderRadius: 12,
-                  padding: "10px 16px",
+                  padding: window.innerWidth < 768 ? "8px 12px" : "10px 16px",
                   color: "#667eea",
-                  fontSize: 14,
-                  fontWeight: 700
+                  fontSize: window.innerWidth < 768 ? 12 : 14,
+                  fontWeight: 700,
+                  flex: window.innerWidth < 768 ? 1 : "none"
                 }}
               >
-                <TrendingUp size={18} />
+                <TrendingUp size={window.innerWidth < 768 ? 14 : 18} />
                 {filteredPosts.length} {language === "tr" ? "aktif gönderi" : "active posts"}
               </motion.div>
             </div>
@@ -965,8 +988,8 @@ export default function Topluluk() {
 
           <div style={{ 
             display: "grid", 
-            gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", 
-            gap: 20
+            gridTemplateColumns: window.innerWidth < 768 ? "1fr" : "repeat(auto-fill, minmax(340px, 1fr))", 
+            gap: window.innerWidth < 768 ? 16 : 20
           }}>
             {sortedPosts.map((post, idx) => (
               <motion.div

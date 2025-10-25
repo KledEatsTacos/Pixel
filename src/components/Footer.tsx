@@ -1,8 +1,21 @@
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { useState, useEffect } from "react";
 
 export default function Footer() {
   const { language } = useLanguage();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(globalThis.window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    globalThis.window.addEventListener('resize', checkMobile);
+    
+    return () => globalThis.window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const charityEmojis = ["🌍", "🐄", "🐷", "🐔", "🐟"];
 
@@ -12,27 +25,28 @@ export default function Footer() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.3 }}
       style={{
-        marginTop: 100,
-        paddingTop: 40,
+        marginTop: isMobile ? 60 : 100,
+        paddingTop: isMobile ? 30 : 40,
         borderTop: "1px solid rgba(255,255,255,0.1)",
         textAlign: "center",
         position: "relative",
-        zIndex: 10
+        zIndex: 10,
+        padding: isMobile ? "30px 20px 20px" : "40px 0"
       }}
     >
       <p style={{
-        fontSize: 14,
+        fontSize: isMobile ? 13 : 14,
         color: "rgba(255,255,255,0.5)",
-        margin: "0 0 20px 0"
+        margin: isMobile ? "0 0 16px 0" : "0 0 20px 0"
       }}>
         © 2025 craigslist. {language === "en" ? "All rights reserved." : "Tüm hakları saklıdır."}
       </p>
       <div style={{
         display: "flex",
         justifyContent: "center",
-        gap: 32,
+        gap: isMobile ? 16 : 32,
         flexWrap: "wrap",
-        marginBottom: 24
+        marginBottom: isMobile ? 20 : 24
       }}>
         {[
           { text: language === "en" ? "Privacy Policy" : "Gizlilik Politikası", href: "#privacy" },
@@ -45,7 +59,7 @@ export default function Footer() {
             whileHover={{ scale: 1.05, color: "#667eea" }}
             href={link.href}
             style={{
-              fontSize: 14,
+              fontSize: isMobile ? 13 : 14,
               color: "rgba(255,255,255,0.6)",
               textDecoration: "none",
               fontWeight: 500,
@@ -61,8 +75,8 @@ export default function Footer() {
       <div style={{
         display: "flex",
         justifyContent: "center",
-        gap: 12,
-        marginTop: 20
+        gap: isMobile ? 8 : 12,
+        marginTop: isMobile ? 16 : 20
       }}>
         {charityEmojis.map((emoji, index) => (
           <motion.a
@@ -73,7 +87,7 @@ export default function Footer() {
             whileHover={{ scale: 1.2, y: -5 }}
             whileTap={{ scale: 0.9 }}
             style={{
-              fontSize: 24,
+              fontSize: isMobile ? 20 : 24,
               textDecoration: "none",
               cursor: "pointer",
               display: "inline-block",
@@ -87,7 +101,7 @@ export default function Footer() {
       </div>
 
       <p style={{
-        fontSize: 12,
+        fontSize: isMobile ? 11 : 12,
         color: "rgba(255,255,255,0.4)",
         marginTop: 12,
         fontWeight: 500

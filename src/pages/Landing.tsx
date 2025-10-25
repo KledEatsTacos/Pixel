@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
   MapPin, Languages, ChevronDown, TrendingUp
@@ -18,6 +18,18 @@ export default function Landing() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(globalThis.window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    globalThis.window.addEventListener('resize', checkMobile);
+    
+    return () => globalThis.window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Event data based on location
   const eventsByLocation: Record<string, any[]> = {
@@ -228,10 +240,10 @@ export default function Landing() {
           zIndex: 1,
           maxWidth: 1400,
           margin: "0 auto",
-          padding: "80px 64px"
+          padding: isMobile ? "40px 20px" : "80px 64px"
         }}
       >
-        <div style={{ textAlign: "center", marginBottom: 80 }}>
+        <div style={{ textAlign: "center", marginBottom: isMobile ? 40 : 80 }}>
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -244,12 +256,12 @@ export default function Landing() {
               backdropFilter: "blur(10px)",
               border: "1px solid rgba(102,126,234,0.3)",
               borderRadius: 50,
-              padding: "8px 20px",
-              marginBottom: 32
+              padding: isMobile ? "6px 16px" : "8px 20px",
+              marginBottom: isMobile ? 20 : 32
             }}
           >
-            <TrendingUp size={16} color="#667eea" />
-            <span style={{ color: "#667eea", fontSize: 14, fontWeight: 600 }}>
+            <TrendingUp size={isMobile ? 14 : 16} color="#667eea" />
+            <span style={{ color: "#667eea", fontSize: isMobile ? 12 : 14, fontWeight: 600 }}>
               {language === "en" ? "Trusted by millions worldwide" : "Dünya çapında milyonlarca kullanıcı"}
             </span>
           </motion.div>
@@ -259,12 +271,12 @@ export default function Landing() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             style={{
-              fontSize: 72,
+              fontSize: isMobile ? 40 : 72,
               fontWeight: 900,
               color: "#fff",
               margin: "0 0 24px 0",
               lineHeight: 1.1,
-              letterSpacing: "-2px"
+              letterSpacing: isMobile ? "-1px" : "-2px"
             }}
           >
             {language === "en" ? (
@@ -279,11 +291,12 @@ export default function Landing() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
             style={{
-              fontSize: 20,
+              fontSize: isMobile ? 16 : 20,
               color: "rgba(255,255,255,0.7)",
               maxWidth: 600,
-              margin: "0 auto 48px",
-              lineHeight: 1.6
+              margin: isMobile ? "0 auto 32px" : "0 auto 48px",
+              lineHeight: 1.6,
+              padding: isMobile ? "0 10px" : 0
             }}
           >
             {language === "en" 
@@ -298,10 +311,10 @@ export default function Landing() {
             style={{
               background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
               border: "none",
-              borderRadius: 16,
-              padding: "18px 48px",
+              borderRadius: isMobile ? 12 : 16,
+              padding: isMobile ? "14px 32px" : "18px 48px",
               color: "#fff",
-              fontSize: 18,
+              fontSize: isMobile ? 16 : 18,
               fontWeight: 700,
               cursor: "pointer",
               display: "inline-flex",
@@ -326,10 +339,11 @@ export default function Landing() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
           style={{
-            marginTop: 100,
-            display: "grid",
-            gridTemplateColumns: "350px 1fr",
-            gap: 32,
+            marginTop: isMobile ? 50 : 100,
+            display: isMobile ? "flex" : "grid",
+            flexDirection: isMobile ? "column" : undefined,
+            gridTemplateColumns: isMobile ? undefined : "350px 1fr",
+            gap: isMobile ? 24 : 32,
             alignItems: "start"
           }}
         >
@@ -342,20 +356,20 @@ export default function Landing() {
               background: "rgba(255,255,255,0.05)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: 24,
-              padding: 28,
-              position: "sticky",
-              top: 120
+              borderRadius: isMobile ? 16 : 24,
+              padding: isMobile ? 20 : 28,
+              position: isMobile ? "relative" : "sticky",
+              top: isMobile ? 0 : 120
             }}
           >
             <div style={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: 24
+              marginBottom: isMobile ? 16 : 24
             }}>
               <h3 style={{
-                fontSize: 18,
+                fontSize: isMobile ? 16 : 18,
                 fontWeight: 700,
                 color: "#fff",
                 margin: 0
@@ -481,7 +495,7 @@ export default function Landing() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.0 }}
                   style={{
-                    fontSize: 32,
+                    fontSize: isMobile ? 24 : 32,
                     fontWeight: 800,
                     color: "#fff",
                     margin: "0 0 8px 0",
@@ -491,7 +505,7 @@ export default function Landing() {
                   {language === "en" ? "Event Calendar" : "Etkinlik Takvimi"}
                 </motion.h2>
                 <p style={{
-                  fontSize: 14,
+                  fontSize: isMobile ? 12 : 14,
                   color: "rgba(255,255,255,0.6)",
                   margin: 0,
                   textTransform: "capitalize"
@@ -516,7 +530,7 @@ export default function Landing() {
             {/* Event Cards - Horizontal Scroll */}
             <div style={{
               display: "flex",
-              gap: 24,
+              gap: isMobile ? 16 : 24,
               overflowX: "auto",
               paddingBottom: 20,
               scrollbarWidth: "thin",
@@ -530,18 +544,18 @@ export default function Landing() {
                   transition={{ delay: 1.2 + index * 0.1 }}
                   whileHover={{ y: -10, scale: 1.02 }}
                   style={{
-                    minWidth: 320,
+                    minWidth: isMobile ? 260 : 320,
                     background: "rgba(255,255,255,0.05)",
                     backdropFilter: "blur(20px)",
                     border: "1px solid rgba(255,255,255,0.1)",
-                    borderRadius: 20,
+                    borderRadius: isMobile ? 16 : 20,
                     overflow: "hidden",
                     cursor: "pointer",
                     transition: "all 0.3s"
                   }}
                 >
                   <div style={{
-                    height: 180,
+                    height: isMobile ? 140 : 180,
                     backgroundImage: `url(${event.image})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
@@ -553,18 +567,18 @@ export default function Landing() {
                       right: 12,
                       background: "rgba(255,255,255,0.95)",
                       backdropFilter: "blur(10px)",
-                      borderRadius: 12,
-                      padding: "8px 16px",
-                      fontSize: 13,
+                      borderRadius: isMobile ? 8 : 12,
+                      padding: isMobile ? "6px 12px" : "8px 16px",
+                      fontSize: isMobile ? 12 : 13,
                       fontWeight: 700,
                       color: "#1f2937"
                     }}>
                       {event.price}
                     </div>
                   </div>
-                  <div style={{ padding: 20 }}>
+                  <div style={{ padding: isMobile ? 16 : 20 }}>
                     <div style={{
-                      fontSize: 12,
+                      fontSize: isMobile ? 11 : 12,
                       color: "#667eea",
                       fontWeight: 600,
                       marginBottom: 8
@@ -572,7 +586,7 @@ export default function Landing() {
                       {event.date}
                     </div>
                     <h4 style={{
-                      fontSize: 18,
+                      fontSize: isMobile ? 16 : 18,
                       fontWeight: 700,
                       color: "#fff",
                       margin: "0 0 8px 0"
@@ -580,7 +594,7 @@ export default function Landing() {
                       {event.title}
                     </h4>
                     <p style={{
-                      fontSize: 14,
+                      fontSize: isMobile ? 13 : 14,
                       color: "rgba(255,255,255,0.6)",
                       margin: 0
                     }}>
@@ -601,10 +615,10 @@ export default function Landing() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.4 }}
           style={{
-            marginTop: 80,
+            marginTop: isMobile ? 50 : 80,
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: 20
+            gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: isMobile ? 16 : 20
           }}
         >
           <motion.a
@@ -614,16 +628,16 @@ export default function Landing() {
               background: "rgba(102,126,234,0.1)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(102,126,234,0.3)",
-              borderRadius: 16,
-              padding: "24px",
+              borderRadius: isMobile ? 12 : 16,
+              padding: isMobile ? "20px" : "24px",
               textDecoration: "none",
               textAlign: "center",
               cursor: "pointer"
             }}
           >
-            <div style={{ fontSize: 32, marginBottom: 12 }}>ℹ️</div>
+            <div style={{ fontSize: isMobile ? 28 : 32, marginBottom: 12 }}>ℹ️</div>
             <h3 style={{ 
-              fontSize: 18, 
+              fontSize: isMobile ? 16 : 18, 
               fontWeight: 700, 
               color: "#667eea", 
               margin: "0 0 8px 0" 
@@ -631,7 +645,7 @@ export default function Landing() {
               {language === "en" ? "About Craigslist" : "Craigslist Hakkında"}
             </h3>
             <p style={{ 
-              fontSize: 14, 
+              fontSize: isMobile ? 13 : 14, 
               color: "rgba(255,255,255,0.7)", 
               margin: 0 
             }}>
@@ -646,16 +660,16 @@ export default function Landing() {
               background: "rgba(245,87,108,0.1)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(245,87,108,0.3)",
-              borderRadius: 16,
-              padding: "24px",
+              borderRadius: isMobile ? 12 : 16,
+              padding: isMobile ? "20px" : "24px",
               textDecoration: "none",
               textAlign: "center",
               cursor: "pointer"
             }}
           >
-            <div style={{ fontSize: 32, marginBottom: 12 }}>⭐</div>
+            <div style={{ fontSize: isMobile ? 28 : 32, marginBottom: 12 }}>⭐</div>
             <h3 style={{ 
-              fontSize: 18, 
+              fontSize: isMobile ? 16 : 18, 
               fontWeight: 700, 
               color: "#f5576c", 
               margin: "0 0 8px 0" 
@@ -663,7 +677,7 @@ export default function Landing() {
               {language === "en" ? "Best Of Craigslist" : "Craigslist'in En İyileri"}
             </h3>
             <p style={{ 
-              fontSize: 14, 
+              fontSize: isMobile ? 13 : 14, 
               color: "rgba(255,255,255,0.7)", 
               margin: 0 
             }}>
@@ -678,16 +692,16 @@ export default function Landing() {
               background: "rgba(67,233,123,0.1)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(67,233,123,0.3)",
-              borderRadius: 16,
-              padding: "24px",
+              borderRadius: isMobile ? 12 : 16,
+              padding: isMobile ? "20px" : "24px",
               textDecoration: "none",
               textAlign: "center",
               cursor: "pointer"
             }}
           >
-            <div style={{ fontSize: 32, marginBottom: 12 }}>✨</div>
+            <div style={{ fontSize: isMobile ? 28 : 32, marginBottom: 12 }}>✨</div>
             <h3 style={{ 
-              fontSize: 18, 
+              fontSize: isMobile ? 16 : 18, 
               fontWeight: 700, 
               color: "#43e97b", 
               margin: "0 0 8px 0" 
@@ -695,7 +709,7 @@ export default function Landing() {
               {language === "en" ? "What's New" : "Yenilikler"}
             </h3>
             <p style={{ 
-              fontSize: 14, 
+              fontSize: isMobile ? 13 : 14, 
               color: "rgba(255,255,255,0.7)", 
               margin: 0 
             }}>
@@ -710,16 +724,16 @@ export default function Landing() {
               background: "rgba(79,209,255,0.1)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(79,209,255,0.3)",
-              borderRadius: 16,
-              padding: "24px",
+              borderRadius: isMobile ? 12 : 16,
+              padding: isMobile ? "20px" : "24px",
               textDecoration: "none",
               textAlign: "center",
               cursor: "pointer"
             }}
           >
-            <div style={{ fontSize: 32, marginBottom: 12 }}>📊</div>
+            <div style={{ fontSize: isMobile ? 28 : 32, marginBottom: 12 }}>📊</div>
             <h3 style={{ 
-              fontSize: 18, 
+              fontSize: isMobile ? 16 : 18, 
               fontWeight: 700, 
               color: "#4fd1ff", 
               margin: "0 0 8px 0" 
@@ -727,7 +741,7 @@ export default function Landing() {
               {language === "en" ? "System Status" : "Sistem Durumu"}
             </h3>
             <p style={{ 
-              fontSize: 14, 
+              fontSize: isMobile ? 13 : 14, 
               color: "rgba(255,255,255,0.7)", 
               margin: 0 
             }}>
@@ -742,16 +756,16 @@ export default function Landing() {
               background: "rgba(250,112,154,0.1)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(250,112,154,0.3)",
-              borderRadius: 16,
-              padding: "24px",
+              borderRadius: isMobile ? 12 : 16,
+              padding: isMobile ? "20px" : "24px",
               textDecoration: "none",
               textAlign: "center",
               cursor: "pointer"
             }}
           >
-            <div style={{ fontSize: 32, marginBottom: 12 }}>❓</div>
+            <div style={{ fontSize: isMobile ? 28 : 32, marginBottom: 12 }}>❓</div>
             <h3 style={{ 
-              fontSize: 18, 
+              fontSize: isMobile ? 16 : 18, 
               fontWeight: 700, 
               color: "#fa709a", 
               margin: "0 0 8px 0" 
@@ -759,7 +773,7 @@ export default function Landing() {
               {language === "en" ? "FAQ" : "SSS"}
             </h3>
             <p style={{ 
-              fontSize: 14, 
+              fontSize: isMobile ? 13 : 14, 
               color: "rgba(255,255,255,0.7)", 
               margin: 0 
             }}>
