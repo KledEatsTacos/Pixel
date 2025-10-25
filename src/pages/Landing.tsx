@@ -652,29 +652,47 @@ export default function Landing() {
 
             {/* Event Cards - Horizontal Scroll */}
             <div style={{
-              display: "flex",
-              gap: 24,
               overflowX: "auto",
-              paddingBottom: 20,
+              overflowY: "visible",
+              paddingBottom: 50,
+              paddingTop: 30,
+              marginBottom: -50,
+              marginTop: -30,
               scrollbarWidth: "thin",
               scrollbarColor: "rgba(102,126,234,0.5) transparent"
             }}>
+              <div style={{
+                display: "flex",
+                gap: 24,
+                paddingLeft: 30,
+                paddingRight: 30,
+                paddingTop: 30,
+                paddingBottom: 50
+              }}>
               {currentEvents.map((event, index) => (
                 <motion.div
                   key={event.id}
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.2 + index * 0.1 }}
-                  whileHover={{ y: -10, scale: 1.02 }}
+                  transition={{ 
+                    opacity: { delay: 1.2 + index * 0.1 },
+                    x: { delay: 1.2 + index * 0.1 },
+                    y: { duration: 0.2, ease: "easeOut" },
+                    boxShadow: { duration: 0.2, ease: "easeOut" }
+                  }}
+                  whileHover={{ 
+                    y: -10,
+                    boxShadow: "0 12px 30px rgba(0,0,0,0.5)"
+                  }}
                   style={{
                     minWidth: 320,
                     background: "rgba(255,255,255,0.05)",
-                    backdropFilter: "blur(20px)",
                     border: "1px solid rgba(255,255,255,0.1)",
                     borderRadius: 20,
-                    overflow: "hidden",
+                    overflow: "visible",
                     cursor: "pointer",
-                    transition: "all 0.3s"
+                    boxShadow: "0 5px 15px rgba(0,0,0,0.3)",
+                    position: "relative"
                   }}
                 >
                   <div style={{
@@ -682,7 +700,9 @@ export default function Landing() {
                     backgroundImage: `url(${event.image})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    position: "relative"
+                    position: "relative",
+                    borderRadius: "20px 20px 0 0",
+                    overflow: "hidden"
                   }}>
                     <div style={{
                       position: "absolute",
@@ -726,6 +746,7 @@ export default function Landing() {
                   </div>
                 </motion.div>
               ))}
+              </div>
             </div>
           </div>
         </motion.div>
