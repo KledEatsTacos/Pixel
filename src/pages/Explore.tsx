@@ -73,6 +73,18 @@ export default function Explore() {
       location: "seattle",
       image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8",
     },
+    {
+      title: language === "en" ? "Cozy Studio Downtown" : "Merkez Stüdyo Daire",
+      price: language === "en" ? "$1,800/mo" : "28.000 TL/ay",
+      location: "boston",
+      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267",
+    },
+    {
+      title: language === "en" ? "Graphic Design Services" : "Grafik Tasarım Hizmetleri",
+      price: language === "en" ? "From $50/hr" : "1.800 TL/saat",
+      location: "austin",
+      image: "https://images.unsplash.com/photo-1561070791-2526d30994b5",
+    },
   ];
 
   return (
@@ -205,7 +217,8 @@ export default function Explore() {
         <div style={{
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(320px, 1fr))",
-          gap: isMobile ? 16 : 24
+          gap: isMobile ? 16 : 24,
+          overflow: "hidden"
         }}>
           {listings.map((item, index) => (
             <motion.div
@@ -213,21 +226,32 @@ export default function Explore() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 + index * 0.1 }}
-              whileHover={{ y: -10, scale: 1.02 }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-10px)";
+                e.currentTarget.style.boxShadow = "0 20px 60px rgba(102, 126, 234, 0.3)";
+                e.currentTarget.style.filter = "brightness(1.1)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.3)";
+                e.currentTarget.style.filter = "brightness(1)";
+              }}
               style={{
                 background: "rgba(255,255,255,0.05)",
                 backdropFilter: "blur(20px)",
                 border: "1px solid rgba(255,255,255,0.1)",
                 borderRadius: isMobile ? 16 : 20,
                 overflow: "hidden",
-                cursor: "pointer"
+                cursor: "pointer",
+                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
+                transition: "transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease"
               }}
             >
               <div style={{ width: "100%", height: isMobile ? 180 : 220, overflow: "hidden" }}>
                 <img 
                   src={item.image} 
                   alt={item.title} 
-                  style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.3s" }} 
+                  style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.2s ease" }} 
                   onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
                   onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
                 />
