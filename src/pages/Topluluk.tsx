@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Heart, User, Languages, MapPin, ChevronDown, TrendingUp } from "lucide-react";
-import { motion } from "framer-motion";
+import { Search, Heart, User, Languages, MapPin, ChevronDown, TrendingUp, Menu, X, Users, ShoppingBag, Briefcase, Home, MessageCircle, Settings } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useLocation } from "../context/LocationContext";
 
@@ -11,23 +11,109 @@ export default function Topluluk() {
   const { language, setLanguage } = useLanguage();
   const { location, setLocation, availableCities } = useLocation();
   const [showLocationMenu, setShowLocationMenu] = useState(false);
+  const [showMainCategories, setShowMainCategories] = useState(false);
 
+  const [selectedMainCategory, setSelectedMainCategory] = useState("community");
   const [selectedCategory, setSelectedCategory] = useState("activities");
 
-  const communitySubcategories = [
-    { id: "activities", name: "activities", nameTr: "etkinlikler" },
-    { id: "artists", name: "artists", nameTr: "sanatçılar" },
-    { id: "childcare", name: "childcare", nameTr: "çocuk bakımı" },
-    { id: "classes", name: "classes", nameTr: "dersler" },
-    { id: "events", name: "events", nameTr: "etkinlikler" },
-    { id: "general", name: "general", nameTr: "genel" },
-    { id: "groups", name: "groups", nameTr: "gruplar" },
-    { id: "local", name: "local news", nameTr: "yerel haberler" },
-    { id: "lost", name: "lost+found", nameTr: "kayıp+bulunan" },
-    { id: "missed", name: "missed connections", nameTr: "kaçırılan bağlantılar" },
-    { id: "musicians", name: "musicians", nameTr: "müzisyenler" },
-    { id: "pets", name: "pets", nameTr: "evcil hayvanlar" },
+  const mainCategories = [
+    { 
+      id: "community", 
+      name: "Community", 
+      nameTr: "Topluluk",
+      icon: Users,
+      color: "#667eea"
+    },
+    { 
+      id: "forsale", 
+      name: "For Sale", 
+      nameTr: "Satılık",
+      icon: ShoppingBag,
+      color: "#f093fb"
+    },
+    { 
+      id: "jobs", 
+      name: "Jobs", 
+      nameTr: "İş İlanları",
+      icon: Briefcase,
+      color: "#4facfe"
+    },
+    { 
+      id: "housing", 
+      name: "Housing", 
+      nameTr: "Konut",
+      icon: Home,
+      color: "#43e97b"
+    },
+    { 
+      id: "discussions", 
+      name: "Discussions", 
+      nameTr: "Tartışmalar",
+      icon: MessageCircle,
+      color: "#fa709a"
+    },
+    { 
+      id: "services", 
+      name: "Services", 
+      nameTr: "Hizmetler",
+      icon: Settings,
+      color: "#feca57"
+    },
   ];
+
+  const subcategories: Record<string, Array<{ id: string; name: string; nameTr: string }>> = {
+    community: [
+      { id: "activities", name: "activities", nameTr: "etkinlikler" },
+      { id: "artists", name: "artists", nameTr: "sanatçılar" },
+      { id: "childcare", name: "childcare", nameTr: "çocuk bakımı" },
+      { id: "classes", name: "classes", nameTr: "dersler" },
+      { id: "events", name: "events", nameTr: "etkinlikler" },
+      { id: "general", name: "general", nameTr: "genel" },
+      { id: "groups", name: "groups", nameTr: "gruplar" },
+      { id: "local", name: "local news", nameTr: "yerel haberler" },
+      { id: "lost", name: "lost+found", nameTr: "kayıp+bulunan" },
+      { id: "missed", name: "missed connections", nameTr: "kaçırılan bağlantılar" },
+      { id: "musicians", name: "musicians", nameTr: "müzisyenler" },
+      { id: "pets", name: "pets", nameTr: "evcil hayvanlar" },
+    ],
+    forsale: [
+      { id: "antiques", name: "antiques", nameTr: "antikalar" },
+      { id: "appliances", name: "appliances", nameTr: "ev aletleri" },
+      { id: "bikes", name: "bikes", nameTr: "bisikletler" },
+      { id: "books", name: "books", nameTr: "kitaplar" },
+      { id: "electronics", name: "electronics", nameTr: "elektronik" },
+      { id: "furniture", name: "furniture", nameTr: "mobilya" },
+    ],
+    jobs: [
+      { id: "accounting", name: "accounting+finance", nameTr: "muhasebe+finans" },
+      { id: "admin", name: "admin / office", nameTr: "yönetici / ofis" },
+      { id: "education", name: "education", nameTr: "eğitim" },
+      { id: "engineering", name: "engineering", nameTr: "mühendislik" },
+      { id: "software", name: "software / qa / dba", nameTr: "yazılım / qa / dba" },
+    ],
+    housing: [
+      { id: "apts", name: "apts / housing", nameTr: "daireler / konut" },
+      { id: "office", name: "office / commercial", nameTr: "ofis / ticari" },
+      { id: "parking", name: "parking / storage", nameTr: "otopark / depo" },
+      { id: "rooms", name: "rooms / shared", nameTr: "odalar / paylaşımlı" },
+    ],
+    discussions: [
+      { id: "apple", name: "apple", nameTr: "apple" },
+      { id: "arts", name: "arts+crafts", nameTr: "sanat+el işi" },
+      { id: "beauty", name: "beauty", nameTr: "güzellik" },
+      { id: "bikes", name: "bikes", nameTr: "bisikletler" },
+      { id: "comp", name: "comp", nameTr: "bilgisayar" },
+    ],
+    services: [
+      { id: "automotive", name: "automotive", nameTr: "otomotiv" },
+      { id: "beauty", name: "beauty", nameTr: "güzellik" },
+      { id: "computer", name: "computer", nameTr: "bilgisayar" },
+      { id: "creative", name: "creative", nameTr: "yaratıcı" },
+      { id: "financial", name: "financial", nameTr: "finansal" },
+    ],
+  };
+
+  const communitySubcategories = subcategories[selectedMainCategory] || [];
 
   const mockPosts = [
     {
@@ -191,6 +277,26 @@ export default function Topluluk() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowMainCategories(!showMainCategories)}
+            style={{
+              background: "rgba(255,255,255,0.1)",
+              backdropFilter: "blur(20px)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: 12,
+              padding: 12,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#fff",
+            }}
+          >
+            {showMainCategories ? <X size={20} /> : <Menu size={20} />}
+          </motion.button>
+
           <motion.div 
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate("/")}
@@ -387,9 +493,134 @@ export default function Topluluk() {
         padding: "32px 48px", 
         gap: 32,
         position: "relative",
-        zIndex: 1
+        zIndex: 1,
+        transition: "all 0.3s ease"
       }}>
-        {/* Sidebar */}
+        {/* Main Categories Sidebar */}
+        <AnimatePresence>
+          {showMainCategories && (
+            <motion.aside
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: 320, opacity: 1 }}
+              exit={{ width: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                backdropFilter: "blur(20px)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 24,
+                padding: showMainCategories ? 24 : 0,
+                height: "fit-content",
+                position: "sticky",
+                top: 120,
+                overflow: "hidden",
+                flexShrink: 0
+              }}
+            >
+              <div style={{ 
+                width: 272,
+                opacity: showMainCategories ? 1 : 0,
+                transition: "opacity 0.2s"
+              }}>
+                <div style={{ 
+                  display: "flex", 
+                  justifyContent: "space-between", 
+                  alignItems: "center",
+                  marginBottom: 24
+                }}>
+                  <h3 style={{ 
+                    fontSize: 20, 
+                    fontWeight: 700, 
+                    color: "#fff",
+                    margin: 0
+                  }}>
+                    {language === "tr" ? "Ana Kategoriler" : "Main Categories"}
+                  </h3>
+                  <motion.button
+                    whileHover={{ scale: 1.1, rotate: 90 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setShowMainCategories(false)}
+                    style={{
+                      background: "rgba(255,255,255,0.1)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      borderRadius: 10,
+                      padding: 6,
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#fff",
+                    }}
+                  >
+                    <X size={16} />
+                  </motion.button>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {mainCategories.map((mainCat) => {
+                    const Icon = mainCat.icon;
+                    return (
+                      <motion.div
+                        key={mainCat.id}
+                        whileHover={{ 
+                          x: 6,
+                          backgroundColor: `${mainCat.color}15`
+                        }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => {
+                          setSelectedMainCategory(mainCat.id);
+                          setSelectedCategory(subcategories[mainCat.id][0].id);
+                        }}
+                        style={{
+                          padding: "14px 16px",
+                          background: selectedMainCategory === mainCat.id 
+                            ? `${mainCat.color}25` 
+                            : "rgba(255,255,255,0.05)",
+                          borderRadius: 14,
+                          cursor: "pointer",
+                          transition: "all 0.3s",
+                          border: selectedMainCategory === mainCat.id 
+                            ? `2px solid ${mainCat.color}60`
+                            : "2px solid transparent",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 12
+                        }}
+                      >
+                        <div style={{
+                          background: selectedMainCategory === mainCat.id 
+                            ? `${mainCat.color}30`
+                            : "rgba(255,255,255,0.1)",
+                          borderRadius: 10,
+                          padding: 8,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}>
+                          <Icon 
+                            size={18} 
+                            color={selectedMainCategory === mainCat.id ? mainCat.color : "#fff"} 
+                          />
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ 
+                            fontSize: 14, 
+                            fontWeight: selectedMainCategory === mainCat.id ? 700 : 600,
+                            color: selectedMainCategory === mainCat.id ? mainCat.color : "#fff",
+                          }}>
+                            {language === "en" ? mainCat.name : mainCat.nameTr}
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+            </motion.aside>
+          )}
+        </AnimatePresence>
+
+        {/* Subcategories Sidebar */}
         <motion.aside 
           initial={{ x: -30, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
