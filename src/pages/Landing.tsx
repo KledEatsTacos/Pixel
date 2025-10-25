@@ -482,7 +482,10 @@ export default function Landing() {
           </motion.div>
 
           {/* Events */}
-          <div>
+          <div style={{
+            width: "100%",
+            overflow: "hidden"
+          }}>
             <div style={{
               display: "flex",
               justifyContent: "space-between",
@@ -528,14 +531,20 @@ export default function Landing() {
             </div>
 
             {/* Event Cards - Horizontal Scroll */}
-            <div style={{
-              display: "flex",
-              gap: isMobile ? 16 : 24,
-              overflowX: "auto",
-              paddingBottom: 20,
-              scrollbarWidth: "thin",
-              scrollbarColor: "rgba(102,126,234,0.5) transparent"
-            }}>
+            <div 
+              className="horizontal-scroll"
+              style={{
+                display: "flex",
+                gap: isMobile ? 16 : 24,
+                overflowX: "scroll",
+                overflowY: "hidden",
+                paddingBottom: 20,
+                paddingRight: 20,
+                marginRight: -20,
+                scrollSnapType: isMobile ? "x mandatory" : "none",
+                width: "100%",
+                touchAction: "pan-x"
+              } as React.CSSProperties}>
               {currentEvents.map((event, index) => (
                 <motion.div
                   key={event.id}
@@ -551,7 +560,9 @@ export default function Landing() {
                     borderRadius: isMobile ? 16 : 20,
                     overflow: "hidden",
                     cursor: "pointer",
-                    transition: "all 0.3s"
+                    transition: "all 0.3s",
+                    scrollSnapAlign: isMobile ? "start" : "none",
+                    flexShrink: 0
                   }}
                 >
                   <div style={{
