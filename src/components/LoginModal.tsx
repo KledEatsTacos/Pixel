@@ -66,34 +66,32 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               background: "rgba(0,0,0,0.7)",
               backdropFilter: "blur(8px)",
               zIndex: 9998,
-              cursor: "pointer"
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
             }}
-          />
-
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 50 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              background: "linear-gradient(135deg, rgba(30,30,60,0.98) 0%, rgba(20,20,40,0.98) 100%)",
-              backdropFilter: "blur(20px)",
-              border: "1px solid rgba(255,255,255,0.2)",
-              borderRadius: 24,
-              padding: 48,
-              maxWidth: 480,
-              width: "90%",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
-              zIndex: 9999,
-              cursor: "default"
-            }}
-            onClick={(e) => e.stopPropagation()}
           >
+            {/* Modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              style={{
+                background: "linear-gradient(135deg, rgba(30,30,60,0.98) 0%, rgba(20,20,40,0.98) 100%)",
+                backdropFilter: "blur(20px)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                borderRadius: 24,
+                padding: 48,
+                maxWidth: 480,
+                width: "90%",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+                position: "relative",
+                cursor: "default"
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
             {/* Close Button */}
             <motion.button
               whileHover={{ scale: 1.1, rotate: 90 }}
@@ -383,6 +381,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 {labels.submit}
               </motion.button>
             </form>
+          </motion.div>
           </motion.div>
         </>
       )}
