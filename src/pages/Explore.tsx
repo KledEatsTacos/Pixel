@@ -4,6 +4,7 @@ import { MapPin, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useLocation } from "../context/LocationContext";
+import { useTheme } from "../context/ThemeContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import LoginModal from "../components/LoginModal";
@@ -14,6 +15,7 @@ export default function Explore() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const { location, setLocation, availableCities } = useLocation();
+  const { isDarkMode } = useTheme();
   const [showLocationMenu, setShowLocationMenu] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -78,7 +80,9 @@ export default function Explore() {
   return (
     <div style={{ 
       minHeight: "100vh", 
-      background: "linear-gradient(to bottom, #0f0c29, #302b63, #24243e)",
+      background: isDarkMode 
+        ? "linear-gradient(to bottom, #0f0c29, #302b63, #24243e)"
+        : "linear-gradient(to bottom, #e5e7eb, #d1d5db, #9ca3af)",
       position: "relative",
       overflow: "hidden"
     }}>
@@ -148,15 +152,22 @@ export default function Explore() {
               whileHover={{ scale: 1.05, y: -5 }}
               onClick={() => navigate(cat.path)}
               style={{
-                background: "rgba(255,255,255,0.05)",
+                background: isDarkMode 
+                  ? "rgba(255,255,255,0.05)" 
+                  : "rgba(255,255,255,0.9)",
                 backdropFilter: "blur(20px)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                border: isDarkMode 
+                  ? "1px solid rgba(255,255,255,0.1)" 
+                  : "1px solid rgba(139,92,246,0.2)",
                 borderRadius: isMobile ? 16 : 20,
                 padding: isMobile ? 20 : 24,
                 cursor: "pointer",
                 position: "relative",
                 overflow: "hidden",
-                textAlign: "center"
+                textAlign: "center",
+                boxShadow: isDarkMode 
+                  ? "none" 
+                  : "0 4px 20px rgba(139,92,246,0.15)"
               }}
             >
               <div style={{
@@ -168,12 +179,16 @@ export default function Explore() {
                 background: cat.color,
                 borderRadius: "50%",
                 filter: "blur(40px)",
-                opacity: 0.3
+                opacity: isDarkMode ? 0.3 : 0.4
               }} />
               
               <div style={{ position: "relative", zIndex: 1 }}>
                 <div style={{ fontSize: isMobile ? 32 : 36, marginBottom: 12 }}>{cat.icon}</div>
-                <div style={{ fontSize: isMobile ? 15 : 16, fontWeight: 700, color: "#fff" }}>
+                <div style={{ 
+                  fontSize: isMobile ? 15 : 16, 
+                  fontWeight: 700, 
+                  color: isDarkMode ? "#fff" : "#1f2937"
+                }}>
                   {cat.name}
                 </div>
               </div>

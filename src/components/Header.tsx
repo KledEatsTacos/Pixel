@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { MapPin, Languages, ChevronDown, User, Search } from "lucide-react";
+import { MapPin, Languages, ChevronDown, User, Search, Moon, Sun } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useLocation } from "../context/LocationContext";
+import { useTheme } from "../context/ThemeContext";
 
 interface HeaderProps {
   onLoginClick: () => void;
@@ -23,6 +24,7 @@ export default function Header({
   const navigate = useNavigate();
   const { language, setLanguage } = useLanguage();
   const { location, setLocation, availableCities } = useLocation();
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const [showLocationMenu, setShowLocationMenu] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -124,9 +126,13 @@ export default function Header({
             whileTap={{ scale: 0.98 }}
             onClick={() => setShowLocationMenu(!showLocationMenu)}
             style={{
-              background: "rgba(255,255,255,0.1)",
+              background: isDarkMode 
+                ? "rgba(255,255,255,0.1)" 
+                : "linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)",
               backdropFilter: "blur(20px)",
-              border: "1px solid rgba(255,255,255,0.2)",
+              border: isDarkMode 
+                ? "1px solid rgba(255,255,255,0.2)" 
+                : "1px solid rgba(139,92,246,0.3)",
               borderRadius: isMobile ? 12 : 16,
               padding: isMobile ? "10px 14px" : "12px 20px",
               color: "#fff",
@@ -137,7 +143,9 @@ export default function Header({
               alignItems: "center",
               gap: isMobile ? 6 : 10,
               textTransform: "capitalize",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+              boxShadow: isDarkMode 
+                ? "0 8px 32px rgba(0,0,0,0.1)" 
+                : "0 8px 32px rgba(139,92,246,0.3)",
               width: isMobile ? "100%" : "auto"
             }}
           >
@@ -211,24 +219,61 @@ export default function Header({
           whileTap={{ scale: 0.98 }}
           onClick={() => setLanguage(language === "en" ? "tr" : "en")}
           style={{
-            background: "rgba(255,255,255,0.1)",
+            background: isDarkMode 
+              ? "rgba(255,255,255,0.1)" 
+              : "rgba(139,92,246,0.15)",
             backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255,255,255,0.2)",
+            border: isDarkMode 
+              ? "1px solid rgba(255,255,255,0.2)" 
+              : "1px solid rgba(139,92,246,0.3)",
             borderRadius: isMobile ? 12 : 16,
             padding: isMobile ? "10px 14px" : "12px 20px",
-            color: "#fff",
+            color: isDarkMode ? "#fff" : "#6d28d9",
             fontSize: isMobile ? 13 : 14,
             fontWeight: 700,
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
             gap: isMobile ? 6 : 10,
-            boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+            boxShadow: isDarkMode 
+              ? "0 8px 32px rgba(0,0,0,0.1)" 
+              : "0 4px 16px rgba(139,92,246,0.2)",
             flex: isMobile ? "1 1 auto" : "0 0 auto"
           }}
         >
           <Languages size={isMobile ? 16 : 18} />
           {language.toUpperCase()}
+        </motion.button>
+
+        {/* Dark Mode Toggle */}
+        <motion.button
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={toggleDarkMode}
+          style={{
+            background: isDarkMode 
+              ? "rgba(255,255,255,0.1)" 
+              : "rgba(139,92,246,0.15)",
+            backdropFilter: "blur(20px)",
+            border: isDarkMode 
+              ? "1px solid rgba(255,255,255,0.2)" 
+              : "1px solid rgba(139,92,246,0.3)",
+            borderRadius: isMobile ? 12 : 16,
+            padding: isMobile ? "10px 14px" : "12px 20px",
+            color: isDarkMode ? "#fff" : "#6d28d9",
+            fontSize: isMobile ? 13 : 14,
+            fontWeight: 700,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: isMobile ? 6 : 10,
+            boxShadow: isDarkMode 
+              ? "0 8px 32px rgba(0,0,0,0.1)" 
+              : "0 4px 16px rgba(139,92,246,0.2)",
+            flex: isMobile ? "1 1 auto" : "0 0 auto"
+          }}
+        >
+          {isDarkMode ? <Sun size={isMobile ? 16 : 18} /> : <Moon size={isMobile ? 16 : 18} />}
         </motion.button>
 
         {/* Login Button */}

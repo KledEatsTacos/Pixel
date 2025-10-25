@@ -4,6 +4,7 @@ import { Search, Heart, User, Languages, MapPin, ChevronDown, TrendingUp, Menu, 
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useLocation } from "../context/LocationContext";
+import { useTheme } from "../context/ThemeContext";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import LoginModal from "../components/LoginModal";
@@ -14,6 +15,7 @@ export default function Topluluk() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const { language, setLanguage } = useLanguage();
   const { location, setLocation, availableCities } = useLocation();
+  const { isDarkMode } = useTheme();
   const [showLocationMenu, setShowLocationMenu] = useState(false);
   const [showMainCategories, setShowMainCategories] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>(null);
@@ -341,7 +343,9 @@ export default function Topluluk() {
   return (
     <div style={{ 
       minHeight: "100vh", 
-      background: "linear-gradient(to bottom, #0f0c29, #302b63, #24243e)",
+      background: isDarkMode 
+        ? "linear-gradient(to bottom, #0f0c29, #302b63, #24243e)" 
+        : "linear-gradient(to bottom, #f3f4f6, #e5e7eb)",
       position: "relative",
       overflow: "hidden"
     }}>
@@ -371,7 +375,9 @@ export default function Topluluk() {
             right: "-5%",
             width: 400,
             height: 400,
-            background: "radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 70%)",
+            background: isDarkMode 
+              ? "radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 70%)" 
+              : "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)",
             borderRadius: "50%",
             filter: "blur(60px)"
           }}
@@ -390,7 +396,7 @@ export default function Topluluk() {
           alignItems: "center",
           position: "relative",
           zIndex: 10,
-          borderBottom: "1px solid rgba(255,255,255,0.1)",
+          borderBottom: isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.1)",
           flexWrap: window.innerWidth < 768 ? "wrap" : "nowrap",
           gap: window.innerWidth < 768 ? 16 : 0
         }}
@@ -401,16 +407,16 @@ export default function Topluluk() {
             whileTap={{ scale: 0.95 }}
             onClick={() => setShowMainCategories(!showMainCategories)}
             style={{
-              background: "rgba(255,255,255,0.1)",
+              background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.15)",
               backdropFilter: "blur(20px)",
-              border: "1px solid rgba(255,255,255,0.2)",
+              border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
               borderRadius: 12,
               padding: 12,
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#fff",
+              color: isDarkMode ? "#fff" : "#1f2937",
             }}
           >
             {showMainCategories ? <X size={20} /> : <Menu size={20} />}
@@ -443,16 +449,16 @@ export default function Topluluk() {
           width: window.innerWidth < 768 ? "100%" : "auto"
         }}>
           <div style={{
-            background: "rgba(255,255,255,0.1)",
+            background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.1)",
             backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255,255,255,0.2)",
+            border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
             borderRadius: 16,
             padding: "14px 20px",
             display: "flex",
             alignItems: "center",
             gap: 12
           }}>
-            <Search size={20} color="rgba(255,255,255,0.7)" />
+            <Search size={20} color={isDarkMode ? "rgba(255,255,255,0.7)" : "rgba(31,41,55,0.6)"} />
             <input
               type="text"
               placeholder={language === "en" ? "Search community..." : "Toplulukta ara..."}
@@ -463,7 +469,7 @@ export default function Topluluk() {
                 border: "none",
                 outline: "none",
                 flex: 1,
-                color: "#fff",
+                color: isDarkMode ? "#fff" : "#1f2937",
                 fontSize: 15,
                 fontWeight: 500
               }}
@@ -478,12 +484,12 @@ export default function Topluluk() {
               whileTap={{ scale: 0.98 }}
               onClick={() => setShowLocationMenu(!showLocationMenu)}
               style={{
-                background: "rgba(255,255,255,0.1)",
+                background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.15)",
                 backdropFilter: "blur(20px)",
-                border: "1px solid rgba(255,255,255,0.2)",
+                border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
                 borderRadius: 16,
                 padding: window.innerWidth < 768 ? "8px 12px" : "12px 20px",
-                color: "#fff",
+                color: isDarkMode ? "#fff" : "#1f2937",
                 fontSize: window.innerWidth < 768 ? 12 : 14,
                 fontWeight: 600,
                 cursor: "pointer",
@@ -509,11 +515,11 @@ export default function Topluluk() {
                   position: "absolute",
                   top: 70,
                   right: 0,
-                  background: "rgba(30,30,60,0.95)",
+                  background: isDarkMode ? "rgba(30,30,60,0.95)" : "rgba(255,255,255,0.95)",
                   backdropFilter: "blur(20px)",
-                  border: "1px solid rgba(255,255,255,0.2)",
+                  border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
                   borderRadius: 20,
-                  boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
+                  boxShadow: isDarkMode ? "0 20px 60px rgba(0,0,0,0.4)" : "0 10px 40px rgba(0,0,0,0.1)",
                   zIndex: 100,
                   minWidth: 220,
                   maxHeight: 450,
@@ -536,12 +542,16 @@ export default function Topluluk() {
                       padding: "14px 18px",
                       cursor: "pointer",
                       fontSize: 14,
-                      color: location === city ? "#667eea" : "#fff",
+                      color: location === city 
+                        ? (isDarkMode ? "#667eea" : "#8b5cf6") 
+                        : (isDarkMode ? "#fff" : "#374151"),
                       fontWeight: location === city ? 700 : 500,
                       textTransform: "capitalize",
                       borderRadius: 12,
                       marginBottom: 6,
-                      background: location === city ? "rgba(102,126,234,0.15)" : "transparent"
+                      background: location === city 
+                        ? (isDarkMode ? "rgba(102,126,234,0.15)" : "rgba(139,92,246,0.15)") 
+                        : "transparent"
                     }}
                   >
                     {city}
@@ -556,12 +566,12 @@ export default function Topluluk() {
             whileTap={{ scale: 0.98 }}
             onClick={() => setLanguage(language === "en" ? "tr" : "en")}
             style={{
-              background: "rgba(255,255,255,0.1)",
+              background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.15)",
               backdropFilter: "blur(20px)",
-              border: "1px solid rgba(255,255,255,0.2)",
+              border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
               borderRadius: 16,
               padding: window.innerWidth < 768 ? "8px 12px" : "12px 20px",
-              color: "#fff",
+              color: isDarkMode ? "#fff" : "#1f2937",
               fontSize: window.innerWidth < 768 ? 12 : 14,
               fontWeight: 700,
               cursor: "pointer",
@@ -578,12 +588,12 @@ export default function Topluluk() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             style={{
-              background: "rgba(255,255,255,0.1)",
+              background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.15)",
               backdropFilter: "blur(20px)",
-              border: "1px solid rgba(255,255,255,0.2)",
+              border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
               borderRadius: 12,
               padding: window.innerWidth < 768 ? 8 : 10,
-              color: "#fff",
+              color: isDarkMode ? "#fff" : "#1f2937",
               cursor: "pointer",
               display: window.innerWidth < 768 ? "none" : "flex"
             }}
@@ -595,12 +605,12 @@ export default function Topluluk() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             style={{
-              background: "rgba(255,255,255,0.1)",
+              background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.15)",
               backdropFilter: "blur(20px)",
-              border: "1px solid rgba(255,255,255,0.2)",
+              border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
               borderRadius: 12,
               padding: window.innerWidth < 768 ? 8 : 10,
-              color: "#fff",
+              color: isDarkMode ? "#fff" : "#1f2937",
               cursor: "pointer",
               display: window.innerWidth < 768 ? "none" : "flex"
             }}
@@ -629,16 +639,17 @@ export default function Topluluk() {
               exit={{ width: 0, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
               style={{
-                background: "rgba(255,255,255,0.05)",
+                background: isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.9)",
                 backdropFilter: "blur(20px)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                border: isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.2)",
                 borderRadius: 24,
                 padding: showMainCategories ? 24 : 0,
                 height: "fit-content",
                 position: "sticky",
                 top: 120,
                 overflow: "hidden",
-                flexShrink: 0
+                flexShrink: 0,
+                boxShadow: isDarkMode ? "none" : "0 4px 20px rgba(0,0,0,0.08)"
               }}
             >
               <div style={{ 
@@ -649,7 +660,7 @@ export default function Topluluk() {
                 <h3 style={{ 
                   fontSize: 20, 
                   fontWeight: 700, 
-                  color: "#fff",
+                  color: isDarkMode ? "#fff" : "#1f2937",
                   margin: 0,
                   marginBottom: 24
                 }}>
@@ -675,7 +686,7 @@ export default function Topluluk() {
                           padding: "14px 16px",
                           background: selectedMainCategory === mainCat.id 
                             ? `${mainCat.color}25` 
-                            : "rgba(255,255,255,0.05)",
+                            : (isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.02)"),
                           borderRadius: 14,
                           cursor: "pointer",
                           transition: "all 0.3s",
@@ -690,7 +701,7 @@ export default function Topluluk() {
                         <div style={{
                           background: selectedMainCategory === mainCat.id 
                             ? `${mainCat.color}30`
-                            : "rgba(255,255,255,0.1)",
+                            : (isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.1)"),
                           borderRadius: 10,
                           padding: 8,
                           display: "flex",
@@ -699,14 +710,14 @@ export default function Topluluk() {
                         }}>
                           <Icon 
                             size={18} 
-                            color={selectedMainCategory === mainCat.id ? mainCat.color : "#fff"} 
+                            color={selectedMainCategory === mainCat.id ? mainCat.color : (isDarkMode ? "#fff" : "#6b7280")} 
                           />
                         </div>
                         <div style={{ flex: 1 }}>
                           <div style={{ 
                             fontSize: 14, 
                             fontWeight: selectedMainCategory === mainCat.id ? 700 : 600,
-                            color: selectedMainCategory === mainCat.id ? mainCat.color : "#fff",
+                            color: selectedMainCategory === mainCat.id ? mainCat.color : (isDarkMode ? "#fff" : "#374151"),
                           }}>
                             {language === "en" ? mainCat.name : mainCat.nameTr}
                           </div>
@@ -727,21 +738,22 @@ export default function Topluluk() {
           transition={{ duration: 0.6, delay: 0.2 }}
           style={{ 
             width: window.innerWidth < 768 ? "100%" : 280,
-            background: "rgba(255,255,255,0.05)",
+            background: isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.9)",
             backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255,255,255,0.1)",
+            border: isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.2)",
             borderRadius: 24,
             padding: window.innerWidth < 768 ? 16 : 24,
             height: "fit-content",
             position: window.innerWidth < 768 ? "relative" : "sticky",
             top: window.innerWidth < 768 ? 0 : 120,
-            marginBottom: window.innerWidth < 768 ? 20 : 0
+            marginBottom: window.innerWidth < 768 ? 20 : 0,
+            boxShadow: isDarkMode ? "none" : "0 4px 20px rgba(0,0,0,0.08)"
           }}
         >
           <h3 style={{ 
             fontSize: window.innerWidth < 768 ? 16 : 20, 
             fontWeight: 700, 
-            color: "#fff",
+            color: isDarkMode ? "#fff" : "#1f2937",
             marginBottom: window.innerWidth < 768 ? 12 : 20,
             marginTop: 0
           }}>
@@ -760,20 +772,22 @@ export default function Topluluk() {
                 style={{
                   padding: "14px 16px",
                   background: selectedCategory === sub.id 
-                    ? "rgba(102,126,234,0.2)" 
+                    ? (isDarkMode ? "rgba(102,126,234,0.2)" : "rgba(139,92,246,0.15)") 
                     : "transparent",
                   borderRadius: 14,
                   cursor: "pointer",
                   transition: "all 0.3s",
                   border: selectedCategory === sub.id 
-                    ? "1px solid rgba(102,126,234,0.4)"
+                    ? (isDarkMode ? "1px solid rgba(102,126,234,0.4)" : "1px solid rgba(139,92,246,0.3)")
                     : "1px solid transparent"
                 }}
               >
                 <div style={{ 
                   fontSize: 15, 
                   fontWeight: selectedCategory === sub.id ? 700 : 600,
-                  color: selectedCategory === sub.id ? "#667eea" : "#fff",
+                  color: selectedCategory === sub.id 
+                    ? (isDarkMode ? "#667eea" : "#8b5cf6") 
+                    : (isDarkMode ? "#fff" : "#374151"),
                   marginBottom: 4
                 }}>
                   {language === "en" ? sub.name : sub.nameTr}
@@ -781,8 +795,8 @@ export default function Topluluk() {
                 <div style={{ 
                   fontSize: 12, 
                   color: selectedCategory === sub.id 
-                    ? "rgba(102,126,234,0.8)" 
-                    : "rgba(255,255,255,0.6)",
+                    ? (isDarkMode ? "rgba(102,126,234,0.8)" : "rgba(139,92,246,0.8)") 
+                    : (isDarkMode ? "rgba(255,255,255,0.6)" : "rgba(107,114,128,0.8)"),
                   fontWeight: 500
                 }}>
                   {mockPosts.filter(p => p.category === sub.id).length} {language === "tr" ? "gönderi" : "posts"}
@@ -808,7 +822,7 @@ export default function Topluluk() {
               style={{ 
                 fontSize: window.innerWidth < 768 ? 24 : 32, 
                 fontWeight: 800,
-                color: "#fff",
+                color: isDarkMode ? "#fff" : "#1f2937",
                 margin: 0,
                 letterSpacing: "-1px"
               }}
@@ -850,12 +864,12 @@ export default function Topluluk() {
                   display: "flex",
                   alignItems: "center",
                   gap: 8,
-                  background: "rgba(102,126,234,0.15)",
+                  background: isDarkMode ? "rgba(102,126,234,0.15)" : "rgba(139,92,246,0.15)",
                   backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(102,126,234,0.3)",
+                  border: isDarkMode ? "1px solid rgba(102,126,234,0.3)" : "1px solid rgba(139,92,246,0.3)",
                   borderRadius: 12,
                   padding: window.innerWidth < 768 ? "8px 12px" : "10px 16px",
-                  color: "#667eea",
+                  color: isDarkMode ? "#667eea" : "#8b5cf6",
                   fontSize: window.innerWidth < 768 ? 12 : 14,
                   fontWeight: 700,
                   flex: window.innerWidth < 768 ? 1 : "none"
@@ -886,13 +900,13 @@ export default function Topluluk() {
               style={{
                 background: sortBy === "newest" 
                   ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" 
-                  : "rgba(255,255,255,0.05)",
+                  : (isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(139,92,246,0.1)"),
                 border: sortBy === "newest" 
                   ? "1px solid rgba(102,126,234,0.5)"
-                  : "1px solid rgba(255,255,255,0.1)",
+                  : (isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.2)"),
                 borderRadius: 12,
                 padding: "10px 18px",
-                color: "#fff",
+                color: sortBy === "newest" ? "#fff" : (isDarkMode ? "#fff" : "#374151"),
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: "pointer",
@@ -913,13 +927,13 @@ export default function Topluluk() {
               style={{
                 background: sortBy === "popular" 
                   ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" 
-                  : "rgba(255,255,255,0.05)",
+                  : (isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(139,92,246,0.1)"),
                 border: sortBy === "popular" 
                   ? "1px solid rgba(102,126,234,0.5)"
-                  : "1px solid rgba(255,255,255,0.1)",
+                  : (isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.2)"),
                 borderRadius: 12,
                 padding: "10px 18px",
-                color: "#fff",
+                color: sortBy === "popular" ? "#fff" : (isDarkMode ? "#fff" : "#374151"),
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: "pointer",
@@ -940,13 +954,13 @@ export default function Topluluk() {
               style={{
                 background: sortBy === "discussed" 
                   ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" 
-                  : "rgba(255,255,255,0.05)",
+                  : (isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(139,92,246,0.1)"),
                 border: sortBy === "discussed" 
                   ? "1px solid rgba(102,126,234,0.5)"
-                  : "1px solid rgba(255,255,255,0.1)",
+                  : (isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.2)"),
                 borderRadius: 12,
                 padding: "10px 18px",
-                color: "#fff",
+                color: sortBy === "discussed" ? "#fff" : (isDarkMode ? "#fff" : "#374151"),
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: "pointer",
@@ -966,11 +980,11 @@ export default function Topluluk() {
               onClick={() => setSortBy("newest")}
               disabled={sortBy === "newest"}
               style={{
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                background: isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(139,92,246,0.1)",
+                border: isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.2)",
                 borderRadius: 12,
                 padding: "10px 18px",
-                color: "rgba(255,255,255,0.6)",
+                color: isDarkMode ? "rgba(255,255,255,0.6)" : "rgba(107,114,128,0.8)",
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: "pointer",
@@ -1003,15 +1017,16 @@ export default function Topluluk() {
                 }}
                 onClick={() => setSelectedPost(post)}
                 style={{
-                  background: "rgba(255,255,255,0.05)",
+                  background: isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.9)",
                   backdropFilter: "blur(20px)",
-                  border: "1px solid rgba(255,255,255,0.1)",
+                  border: isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.2)",
                   borderRadius: 20,
                   padding: 20,
                   cursor: "pointer",
                   transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                   position: "relative",
-                  overflow: "hidden"
+                  overflow: "hidden",
+                  boxShadow: isDarkMode ? "none" : "0 4px 20px rgba(0,0,0,0.08)"
                 }}
               >
                 <div style={{
@@ -1038,7 +1053,7 @@ export default function Topluluk() {
                     <h3 style={{ 
                       fontSize: 18, 
                       fontWeight: 700,
-                      color: "#fff",
+                      color: isDarkMode ? "#fff" : "#1f2937",
                       margin: 0,
                       marginBottom: 8,
                       lineHeight: 1.3
@@ -1050,7 +1065,7 @@ export default function Topluluk() {
                       alignItems: "center", 
                       gap: 8,
                       fontSize: 13,
-                      color: "rgba(255,255,255,0.6)",
+                      color: isDarkMode ? "rgba(255,255,255,0.6)" : "rgba(107,114,128,0.8)",
                       fontWeight: 500
                     }}>
                       <User size={14} />
@@ -1075,7 +1090,7 @@ export default function Topluluk() {
                 </div>
 
                 <p style={{ 
-                  color: "rgba(255,255,255,0.8)",
+                  color: isDarkMode ? "rgba(255,255,255,0.8)" : "rgba(55,65,81,0.9)",
                   fontSize: 14,
                   lineHeight: 1.6,
                   margin: 0,
@@ -1089,11 +1104,11 @@ export default function Topluluk() {
                   display: "flex", 
                   gap: 20,
                   paddingTop: 16,
-                  borderTop: "1px solid rgba(255,255,255,0.1)"
+                  borderTop: isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.15)"
                 }}>
                   <div style={{ 
                     fontSize: 13, 
-                    color: "rgba(255,255,255,0.7)",
+                    color: isDarkMode ? "rgba(255,255,255,0.7)" : "rgba(107,114,128,0.8)",
                     fontWeight: 600,
                     display: "flex",
                     alignItems: "center",
@@ -1103,7 +1118,7 @@ export default function Topluluk() {
                   </div>
                   <div style={{ 
                     fontSize: 13, 
-                    color: "rgba(255,255,255,0.7)",
+                    color: isDarkMode ? "rgba(255,255,255,0.7)" : "rgba(107,114,128,0.8)",
                     fontWeight: 600,
                     display: "flex",
                     alignItems: "center",
@@ -1578,6 +1593,10 @@ export default function Topluluk() {
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowCreatePost(false);
+                    }}
                     style={{
                       background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                       border: "none",

@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useLocation } from "../context/LocationContext";
+import { useTheme } from "../context/ThemeContext";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import LoginModal from "../components/LoginModal";
@@ -14,6 +15,7 @@ export default function Landing() {
   const navigate = useNavigate();
   const { language, setLanguage } = useLanguage();
   const { location, setLocation, availableCities } = useLocation();
+  const { isDarkMode } = useTheme();
   const [showLocationMenu, setShowLocationMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -166,7 +168,9 @@ export default function Landing() {
   return (
     <div style={{ 
       minHeight: "100vh", 
-      background: "linear-gradient(to bottom, #0f0c29, #302b63, #24243e)",
+      background: isDarkMode 
+        ? "linear-gradient(to bottom, #0f0c29, #302b63, #24243e)"
+        : "linear-gradient(to bottom, #f8fafc, #e0e7ff, #dbeafe)",
       position: "relative",
       overflow: "hidden"
     }}>
@@ -196,7 +200,9 @@ export default function Landing() {
             right: "-10%",
             width: 600,
             height: 600,
-            background: "radial-gradient(circle, rgba(102,126,234,0.15) 0%, transparent 70%)",
+            background: isDarkMode 
+              ? "radial-gradient(circle, rgba(102,126,234,0.15) 0%, transparent 70%)"
+              : "radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%)",
             borderRadius: "50%",
             filter: "blur(60px)"
           }}
@@ -217,7 +223,9 @@ export default function Landing() {
             left: "-10%",
             width: 500,
             height: 500,
-            background: "radial-gradient(circle, rgba(245,87,108,0.15) 0%, transparent 70%)",
+            background: isDarkMode 
+              ? "radial-gradient(circle, rgba(245,87,108,0.15) 0%, transparent 70%)"
+              : "radial-gradient(circle, rgba(236,72,153,0.12) 0%, transparent 70%)",
             borderRadius: "50%",
             filter: "blur(60px)"
           }}
@@ -252,16 +260,25 @@ export default function Landing() {
               display: "inline-flex",
               alignItems: "center",
               gap: 8,
-              background: "rgba(102,126,234,0.15)",
+              background: isDarkMode 
+                ? "rgba(102,126,234,0.15)" 
+                : "rgba(102,126,234,0.25)",
               backdropFilter: "blur(10px)",
-              border: "1px solid rgba(102,126,234,0.3)",
+              border: isDarkMode 
+                ? "1px solid rgba(102,126,234,0.3)" 
+                : "1px solid rgba(102,126,234,0.4)",
               borderRadius: 50,
               padding: isMobile ? "6px 16px" : "8px 20px",
-              marginBottom: isMobile ? 20 : 32
+              marginBottom: isMobile ? 20 : 32,
+              boxShadow: isDarkMode ? "none" : "0 4px 12px rgba(102,126,234,0.2)"
             }}
           >
-            <TrendingUp size={isMobile ? 14 : 16} color="#667eea" />
-            <span style={{ color: "#667eea", fontSize: isMobile ? 12 : 14, fontWeight: 600 }}>
+            <TrendingUp size={isMobile ? 14 : 16} color={isDarkMode ? "#667eea" : "#5c6bc0"} />
+            <span style={{ 
+              color: isDarkMode ? "#667eea" : "#5c6bc0", 
+              fontSize: isMobile ? 12 : 14, 
+              fontWeight: 600 
+            }}>
               {language === "en" ? "Trusted by millions worldwide" : "Dünya çapında milyonlarca kullanıcı"}
             </span>
           </motion.div>
@@ -273,7 +290,7 @@ export default function Landing() {
             style={{
               fontSize: isMobile ? 40 : 72,
               fontWeight: 900,
-              color: "#fff",
+              color: isDarkMode ? "#fff" : "#1f2937",
               margin: "0 0 24px 0",
               lineHeight: 1.1,
               letterSpacing: isMobile ? "-1px" : "-2px"
@@ -292,7 +309,7 @@ export default function Landing() {
             transition={{ duration: 0.6, delay: 0.6 }}
             style={{
               fontSize: isMobile ? 16 : 20,
-              color: "rgba(255,255,255,0.7)",
+              color: isDarkMode ? "rgba(255,255,255,0.7)" : "rgba(55,65,81,0.9)",
               maxWidth: 600,
               margin: isMobile ? "0 auto 32px" : "0 auto 48px",
               lineHeight: 1.6,
@@ -353,13 +370,14 @@ export default function Landing() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 1.0 }}
             style={{
-              background: "rgba(255,255,255,0.05)",
+              background: isDarkMode ? "rgba(255,255,255,0.05)" : "#ffffff",
               backdropFilter: "blur(20px)",
-              border: "1px solid rgba(255,255,255,0.1)",
+              border: isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.2)",
               borderRadius: isMobile ? 16 : 24,
               padding: isMobile ? 20 : 28,
               position: isMobile ? "relative" : "sticky",
-              top: isMobile ? 0 : 120
+              top: isMobile ? 0 : 120,
+              boxShadow: isDarkMode ? "none" : "0 10px 40px rgba(139,92,246,0.15), 0 4px 12px rgba(0,0,0,0.1)"
             }}
           >
             <div style={{
@@ -371,7 +389,7 @@ export default function Landing() {
               <h3 style={{
                 fontSize: isMobile ? 16 : 18,
                 fontWeight: 700,
-                color: "#fff",
+                color: isDarkMode ? "#fff" : "#1a237e",
                 margin: 0
               }}>
                 {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
@@ -382,14 +400,14 @@ export default function Landing() {
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
                   style={{
-                    background: "rgba(255,255,255,0.1)",
-                    border: "1px solid rgba(255,255,255,0.2)",
+                    background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.15)",
+                    border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.3)",
                     borderRadius: 8,
                     padding: 6,
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
-                    color: "#fff"
+                    color: isDarkMode ? "#fff" : "#5c6bc0"
                   }}
                 >
                   ←
@@ -399,14 +417,14 @@ export default function Landing() {
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
                   style={{
-                    background: "rgba(255,255,255,0.1)",
-                    border: "1px solid rgba(255,255,255,0.2)",
+                    background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.15)",
+                    border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.3)",
                     borderRadius: 8,
                     padding: 6,
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
-                    color: "#fff"
+                    color: isDarkMode ? "#fff" : "#5c6bc0"
                   }}
                 >
                   →
@@ -426,7 +444,7 @@ export default function Landing() {
                   textAlign: "center",
                   fontSize: 12,
                   fontWeight: 600,
-                  color: "rgba(255,255,255,0.5)",
+                  color: isDarkMode ? "rgba(255,255,255,0.5)" : "rgba(26,35,126,0.6)",
                   padding: "8px 0"
                 }}>
                   {day}
@@ -455,23 +473,24 @@ export default function Landing() {
                 return (
                   <motion.button
                     key={day}
-                    whileHover={{ scale: 1.1, backgroundColor: "rgba(102,126,234,0.3)" }}
+                    whileHover={{ scale: 1.1, backgroundColor: isDarkMode ? "rgba(102,126,234,0.3)" : "rgba(139,92,246,0.1)" }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setSelectedDate(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day))}
                     style={{
                       background: isSelected 
                         ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
                         : isToday
-                        ? "rgba(102,126,234,0.2)"
+                        ? isDarkMode ? "rgba(102,126,234,0.2)" : "rgba(139,92,246,0.15)"
                         : "transparent",
-                      border: isToday ? "1px solid rgba(102,126,234,0.5)" : "1px solid transparent",
+                      border: isToday ? isDarkMode ? "1px solid rgba(102,126,234,0.5)" : "1px solid rgba(139,92,246,0.4)" : "1px solid transparent",
                       borderRadius: 12,
                       padding: "12px 0",
                       cursor: "pointer",
                       fontSize: 14,
                       fontWeight: isSelected || isToday ? 700 : 500,
-                      color: "#fff",
-                      transition: "all 0.2s"
+                      color: isDarkMode ? "#fff" : isSelected ? "#fff" : "#1a237e",
+                      transition: "all 0.2s",
+                      boxShadow: isSelected ? "0 4px 12px rgba(102,126,234,0.4)" : "none"
                     }}
                   >
                     {day}
@@ -500,7 +519,7 @@ export default function Landing() {
                   style={{
                     fontSize: isMobile ? 24 : 32,
                     fontWeight: 800,
-                    color: "#fff",
+                    color: isDarkMode ? "#fff" : "#1f2937",
                     margin: "0 0 8px 0",
                     letterSpacing: "-1px"
                   }}
@@ -509,7 +528,7 @@ export default function Landing() {
                 </motion.h2>
                 <p style={{
                   fontSize: isMobile ? 12 : 14,
-                  color: "rgba(255,255,255,0.6)",
+                  color: isDarkMode ? "rgba(255,255,255,0.6)" : "rgba(107,114,128,0.8)",
                   margin: 0,
                   textTransform: "capitalize"
                 }}>
@@ -520,7 +539,7 @@ export default function Landing() {
                 whileHover={{ scale: 1.05 }}
                 href="#all-events"
                 style={{
-                  color: "#667eea",
+                  color: isDarkMode ? "#667eea" : "#8b5cf6",
                   fontSize: 14,
                   fontWeight: 600,
                   textDecoration: "none"
@@ -554,15 +573,16 @@ export default function Landing() {
                   whileHover={{ y: -10, scale: 1.02 }}
                   style={{
                     minWidth: isMobile ? 260 : 320,
-                    background: "rgba(255,255,255,0.05)",
+                    background: isDarkMode ? "rgba(255,255,255,0.05)" : "#ffffff",
                     backdropFilter: "blur(20px)",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    border: isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.2)",
                     borderRadius: isMobile ? 16 : 20,
                     overflow: "hidden",
                     cursor: "pointer",
                     transition: "all 0.3s",
                     scrollSnapAlign: isMobile ? "start" : "none",
-                    flexShrink: 0
+                    flexShrink: 0,
+                    boxShadow: isDarkMode ? "none" : "0 8px 24px rgba(139,92,246,0.12), 0 4px 8px rgba(0,0,0,0.08)"
                   }}
                 >
                   <div style={{
