@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useLocation } from "../context/LocationContext";
+import Footer from "../components/Footer";
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -41,22 +42,6 @@ export default function Landing() {
         date: "15 Oct - 20 Nov",
         price: "$50",
         image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400"
-      },
-      {
-        id: 4,
-        title: "Comedy Night Live",
-        venue: "Madison Square Garden",
-        date: "10 Nov - 18 Nov",
-        price: "$85",
-        image: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=400"
-      },
-      {
-        id: 5,
-        title: "Tech Conference 2025",
-        venue: "Javits Center",
-        date: "05 Nov - 12 Nov",
-        price: "$200",
-        image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=400"
       }
     ],
     "london": [
@@ -83,22 +68,6 @@ export default function Landing() {
         date: "01 Nov - 24 Dec",
         price: "Free",
         image: "https://images.unsplash.com/photo-1576566686474-ff63a55aee5d?w=400"
-      },
-      {
-        id: 4,
-        title: "Shakespeare Festival",
-        venue: "Globe Theatre",
-        date: "08 Nov - 22 Nov",
-        price: "£65",
-        image: "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=400"
-      },
-      {
-        id: 5,
-        title: "Food Truck Festival",
-        venue: "Camden Market",
-        date: "12 Nov - 19 Nov",
-        price: "£20",
-        image: "https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?w=400"
       }
     ],
     "tokyo": [
@@ -125,22 +94,6 @@ export default function Landing() {
         date: "15 Oct - 25 Nov",
         price: "¥12000",
         image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400"
-      },
-      {
-        id: 4,
-        title: "Ramen Festival",
-        venue: "Shibuya Square",
-        date: "18 Nov - 25 Nov",
-        price: "¥5000",
-        image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400"
-      },
-      {
-        id: 5,
-        title: "Gaming Expo",
-        venue: "Tokyo Big Sight",
-        date: "02 Nov - 09 Nov",
-        price: "¥9000",
-        image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400"
       }
     ],
     "paris": [
@@ -167,22 +120,6 @@ export default function Landing() {
         date: "05 Nov - 20 Nov",
         price: "€90",
         image: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=400"
-      },
-      {
-        id: 4,
-        title: "Street Art Tour",
-        venue: "Montmartre",
-        date: "14 Nov - 28 Nov",
-        price: "€35",
-        image: "https://images.unsplash.com/photo-1499781350541-7783f6c6a0c8?w=400"
-      },
-      {
-        id: 5,
-        title: "Culinary Workshop",
-        venue: "Le Cordon Bleu",
-        date: "20 Nov - 30 Nov",
-        price: "€120",
-        image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400"
       }
     ]
   };
@@ -529,7 +466,7 @@ export default function Landing() {
           style={{
             marginTop: 100,
             display: "grid",
-            gridTemplateColumns: "350px minmax(0, 1fr)",
+            gridTemplateColumns: "350px 1fr",
             gap: 32,
             alignItems: "start"
           }}
@@ -716,49 +653,29 @@ export default function Landing() {
 
             {/* Event Cards - Horizontal Scroll */}
             <div style={{
+              display: "flex",
+              gap: 24,
               overflowX: "auto",
-              overflowY: "visible",
-              paddingBottom: 10,
-              paddingTop: 30,
-              marginBottom: -10,
-              marginTop: -30,
+              paddingBottom: 20,
               scrollbarWidth: "thin",
-              scrollbarColor: "rgba(102,126,234,0.5) transparent",
-              width: "100%"
+              scrollbarColor: "rgba(102,126,234,0.5) transparent"
             }}>
-              <div style={{
-                display: "flex",
-                gap: 24,
-                paddingLeft: 30,
-                paddingRight: 30,
-                paddingTop: 30,
-                paddingBottom: 20,
-                width: "max-content"
-              }}>
               {currentEvents.map((event, index) => (
                 <motion.div
                   key={event.id}
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ 
-                    opacity: { delay: 1.2 + index * 0.1 },
-                    x: { delay: 1.2 + index * 0.1 },
-                    y: { duration: 0.2, ease: "easeOut" },
-                    boxShadow: { duration: 0.2, ease: "easeOut" }
-                  }}
-                  whileHover={{ 
-                    y: -10,
-                    boxShadow: "0 12px 30px rgba(0,0,0,0.5)"
-                  }}
+                  transition={{ delay: 1.2 + index * 0.1 }}
+                  whileHover={{ y: -10, scale: 1.02 }}
                   style={{
                     minWidth: 320,
                     background: "rgba(255,255,255,0.05)",
+                    backdropFilter: "blur(20px)",
                     border: "1px solid rgba(255,255,255,0.1)",
                     borderRadius: 20,
-                    overflow: "visible",
+                    overflow: "hidden",
                     cursor: "pointer",
-                    boxShadow: "0 5px 15px rgba(0,0,0,0.3)",
-                    position: "relative"
+                    transition: "all 0.3s"
                   }}
                 >
                   <div style={{
@@ -766,9 +683,7 @@ export default function Landing() {
                     backgroundImage: `url(${event.image})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    position: "relative",
-                    borderRadius: "20px 20px 0 0",
-                    overflow: "hidden"
+                    position: "relative"
                   }}>
                     <div style={{
                       position: "absolute",
@@ -812,7 +727,6 @@ export default function Landing() {
                   </div>
                 </motion.div>
               ))}
-              </div>
             </div>
           </div>
         </motion.div>
@@ -995,53 +909,7 @@ export default function Landing() {
       
 
         {/* Footer Links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 2.0 }}
-          style={{
-            marginTop: 100,
-            paddingTop: 40,
-            borderTop: "1px solid rgba(255,255,255,0.1)",
-            textAlign: "center"
-          }}
-        >
-          <p style={{
-            fontSize: 14,
-            color: "rgba(255,255,255,0.5)",
-            margin: "0 0 20px 0"
-          }}>
-            © 2025 craigslist. {language === "en" ? "All rights reserved." : "Tüm hakları saklıdır."}
-          </p>
-          <div style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 32,
-            flexWrap: "wrap"
-          }}>
-            {[
-              { text: language === "en" ? "Privacy Policy" : "Gizlilik Politikası", href: "#privacy" },
-              { text: language === "en" ? "Terms of Service" : "Hizmet Şartları", href: "#terms" },
-              { text: language === "en" ? "Contact Us" : "İletişim", href: "#contact" },
-              { text: language === "en" ? "Help" : "Yardım", href: "#help" }
-            ].map((link, index) => (
-              <motion.a
-                key={index}
-                whileHover={{ scale: 1.05, color: "#667eea" }}
-                href={link.href}
-                style={{
-                  fontSize: 14,
-                  color: "rgba(255,255,255,0.6)",
-                  textDecoration: "none",
-                  fontWeight: 500,
-                  transition: "color 0.3s"
-                }}
-              >
-                {link.text}
-              </motion.a>
-            ))}
-          </div>
-        </motion.div>
+        <Footer />
       </motion.div>
     </div>
   );

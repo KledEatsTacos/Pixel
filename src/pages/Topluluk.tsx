@@ -4,10 +4,14 @@ import { Search, Heart, User, Languages, MapPin, ChevronDown, TrendingUp, Menu, 
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useLocation } from "../context/LocationContext";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import LoginModal from "../components/LoginModal";
 
 export default function Topluluk() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const { language, setLanguage } = useLanguage();
   const { location, setLocation, availableCities } = useLocation();
   const [showLocationMenu, setShowLocationMenu] = useState(false);
@@ -1089,6 +1093,8 @@ export default function Topluluk() {
             ))}
           </div>
         </div>
+
+        <Footer />
       </div>
 
       {/* Post Preview Modal */}
@@ -1570,6 +1576,8 @@ export default function Topluluk() {
           </>
         )}
       </AnimatePresence>
+      
+      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
     </div>
   );
 }
