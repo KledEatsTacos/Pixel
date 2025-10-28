@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { useTheme } from "../context/ThemeContext";
 import { useState, useEffect } from "react";
 
 export default function Footer() {
   const { language } = useLanguage();
+  const { isDarkMode } = useTheme();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function Footer() {
       style={{
         marginTop: isMobile ? 60 : 100,
         paddingTop: isMobile ? 30 : 40,
-        borderTop: "1px solid rgba(255,255,255,0.1)",
+        borderTop: isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.2)",
         textAlign: "center",
         position: "relative",
         zIndex: 10,
@@ -36,7 +38,7 @@ export default function Footer() {
     >
       <p style={{
         fontSize: isMobile ? 13 : 14,
-        color: "rgba(255,255,255,0.5)",
+        color: isDarkMode ? "rgba(255,255,255,0.5)" : "rgba(107,114,128,0.7)",
         margin: isMobile ? "0 0 16px 0" : "0 0 20px 0"
       }}>
         © 2025 craigslist. {language === "en" ? "All rights reserved." : "Tüm hakları saklıdır."}
@@ -56,11 +58,11 @@ export default function Footer() {
         ].map((link, index) => (
           <motion.a
             key={index}
-            whileHover={{ scale: 1.05, color: "#667eea" }}
+            whileHover={{ scale: 1.05, color: isDarkMode ? "#667eea" : "#8b5cf6" }}
             href={link.href}
             style={{
               fontSize: isMobile ? 13 : 14,
-              color: "rgba(255,255,255,0.6)",
+              color: isDarkMode ? "rgba(255,255,255,0.6)" : "rgba(107,114,128,0.8)",
               textDecoration: "none",
               fontWeight: 500,
               transition: "color 0.3s"
@@ -102,7 +104,7 @@ export default function Footer() {
 
       <p style={{
         fontSize: isMobile ? 11 : 12,
-        color: "rgba(255,255,255,0.4)",
+        color: isDarkMode ? "rgba(255,255,255,0.4)" : "rgba(107,114,128,0.6)",
         marginTop: 12,
         fontWeight: 500
       }}>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
+import { useTheme } from "../context/ThemeContext";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface LoginModalProps {
 
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const { language } = useLanguage();
+  const { isDarkMode } = useTheme();
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -80,14 +82,20 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               style={{
-                background: "linear-gradient(135deg, rgba(30,30,60,0.98) 0%, rgba(20,20,40,0.98) 100%)",
+                background: isDarkMode 
+                  ? "linear-gradient(135deg, rgba(30,30,60,0.98) 0%, rgba(20,20,40,0.98) 100%)"
+                  : "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,249,250,0.98) 100%)",
                 backdropFilter: "blur(20px)",
-                border: "1px solid rgba(255,255,255,0.2)",
+                border: isDarkMode 
+                  ? "1px solid rgba(255,255,255,0.2)" 
+                  : "1px solid rgba(139,92,246,0.2)",
                 borderRadius: 24,
                 padding: 48,
                 maxWidth: 480,
                 width: "90%",
-                boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+                boxShadow: isDarkMode 
+                  ? "0 20px 60px rgba(0,0,0,0.5)" 
+                  : "0 20px 60px rgba(139,92,246,0.3)",
                 position: "relative",
                 cursor: "default"
               }}
@@ -102,8 +110,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 position: "absolute",
                 top: 20,
                 right: 20,
-                background: "rgba(255,255,255,0.1)",
-                border: "1px solid rgba(255,255,255,0.2)",
+                background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.1)",
+                border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
                 borderRadius: "50%",
                 width: 40,
                 height: 40,
@@ -111,7 +119,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
-                color: "#fff"
+                color: isDarkMode ? "#fff" : "#1f2937"
               }}
             >
               <X size={20} />
@@ -130,7 +138,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 {isLogin ? labels.login : labels.signup}
               </h2>
               <p style={{
-                color: "rgba(255,255,255,0.6)",
+                color: isDarkMode ? "rgba(255,255,255,0.6)" : "rgba(107,114,128,0.8)",
                 fontSize: 14,
                 margin: 0
               }}>
@@ -138,7 +146,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 <span
                   onClick={() => setIsLogin(!isLogin)}
                   style={{
-                    color: "#667eea",
+                    color: isDarkMode ? "#667eea" : "#8b5cf6",
                     fontWeight: 700,
                     cursor: "pointer",
                     textDecoration: "underline"
@@ -161,7 +169,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 >
                   <label style={{
                     display: "block",
-                    color: "rgba(255,255,255,0.8)",
+                    color: isDarkMode ? "rgba(255,255,255,0.8)" : "rgba(31,41,55,0.9)",
                     fontSize: 14,
                     fontWeight: 600,
                     marginBottom: 8
@@ -176,7 +184,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                     <User size={18} style={{
                       position: "absolute",
                       left: 16,
-                      color: "rgba(255,255,255,0.5)"
+                      color: isDarkMode ? "rgba(255,255,255,0.5)" : "rgba(107,114,128,0.6)"
                     }} />
                     <input
                       type="text"
@@ -187,16 +195,16 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                       style={{
                         width: "100%",
                         padding: "14px 16px 14px 48px",
-                        background: "rgba(255,255,255,0.1)",
-                        border: "1px solid rgba(255,255,255,0.2)",
+                        background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.05)",
+                        border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
                         borderRadius: 12,
-                        color: "#fff",
+                        color: isDarkMode ? "#fff" : "#1f2937",
                         fontSize: 15,
                         outline: "none",
                         transition: "all 0.3s"
                       }}
-                      onFocus={(e) => e.target.style.borderColor = "#667eea"}
-                      onBlur={(e) => e.target.style.borderColor = "rgba(255,255,255,0.2)"}
+                      onFocus={(e) => e.target.style.borderColor = isDarkMode ? "#667eea" : "#8b5cf6"}
+                      onBlur={(e) => e.target.style.borderColor = isDarkMode ? "rgba(255,255,255,0.2)" : "rgba(139,92,246,0.2)"}
                     />
                   </div>
                 </motion.div>
@@ -206,7 +214,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               <div style={{ marginBottom: 20 }}>
                 <label style={{
                   display: "block",
-                  color: "rgba(255,255,255,0.8)",
+                  color: isDarkMode ? "rgba(255,255,255,0.8)" : "rgba(31,41,55,0.9)",
                   fontSize: 14,
                   fontWeight: 600,
                   marginBottom: 8
@@ -221,7 +229,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   <Mail size={18} style={{
                     position: "absolute",
                     left: 16,
-                    color: "rgba(255,255,255,0.5)"
+                    color: isDarkMode ? "rgba(255,255,255,0.5)" : "rgba(107,114,128,0.6)"
                   }} />
                   <input
                     type="email"
@@ -232,16 +240,16 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                     style={{
                       width: "100%",
                       padding: "14px 16px 14px 48px",
-                      background: "rgba(255,255,255,0.1)",
-                      border: "1px solid rgba(255,255,255,0.2)",
+                      background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.05)",
+                      border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
                       borderRadius: 12,
-                      color: "#fff",
+                      color: isDarkMode ? "#fff" : "#1f2937",
                       fontSize: 15,
                       outline: "none",
                       transition: "all 0.3s"
                     }}
-                    onFocus={(e) => e.target.style.borderColor = "#667eea"}
-                    onBlur={(e) => e.target.style.borderColor = "rgba(255,255,255,0.2)"}
+                    onFocus={(e) => e.target.style.borderColor = isDarkMode ? "#667eea" : "#8b5cf6"}
+                    onBlur={(e) => e.target.style.borderColor = isDarkMode ? "rgba(255,255,255,0.2)" : "rgba(139,92,246,0.2)"}
                   />
                 </div>
               </div>
@@ -250,7 +258,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               <div style={{ marginBottom: !isLogin ? 20 : 12 }}>
                 <label style={{
                   display: "block",
-                  color: "rgba(255,255,255,0.8)",
+                  color: isDarkMode ? "rgba(255,255,255,0.8)" : "rgba(31,41,55,0.9)",
                   fontSize: 14,
                   fontWeight: 600,
                   marginBottom: 8
@@ -265,7 +273,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   <Lock size={18} style={{
                     position: "absolute",
                     left: 16,
-                    color: "rgba(255,255,255,0.5)"
+                    color: isDarkMode ? "rgba(255,255,255,0.5)" : "rgba(107,114,128,0.6)"
                   }} />
                   <input
                     type={showPassword ? "text" : "password"}
@@ -276,16 +284,16 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                     style={{
                       width: "100%",
                       padding: "14px 48px 14px 48px",
-                      background: "rgba(255,255,255,0.1)",
-                      border: "1px solid rgba(255,255,255,0.2)",
+                      background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.05)",
+                      border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
                       borderRadius: 12,
-                      color: "#fff",
+                      color: isDarkMode ? "#fff" : "#1f2937",
                       fontSize: 15,
                       outline: "none",
                       transition: "all 0.3s"
                     }}
-                    onFocus={(e) => e.target.style.borderColor = "#667eea"}
-                    onBlur={(e) => e.target.style.borderColor = "rgba(255,255,255,0.2)"}
+                    onFocus={(e) => e.target.style.borderColor = isDarkMode ? "#667eea" : "#8b5cf6"}
+                    onBlur={(e) => e.target.style.borderColor = isDarkMode ? "rgba(255,255,255,0.2)" : "rgba(139,92,246,0.2)"}
                   />
                   <motion.button
                     type="button"
@@ -298,7 +306,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                       background: "transparent",
                       border: "none",
                       cursor: "pointer",
-                      color: "rgba(255,255,255,0.5)",
+                      color: isDarkMode ? "rgba(255,255,255,0.5)" : "rgba(107,114,128,0.6)",
                       padding: 0,
                       display: "flex",
                       alignItems: "center"
@@ -319,7 +327,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                       console.log("Forgot password clicked");
                     }}
                     style={{
-                      color: "#667eea",
+                      color: isDarkMode ? "#667eea" : "#8b5cf6",
                       fontSize: 14,
                       fontWeight: 600,
                       cursor: "pointer",
@@ -342,7 +350,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 >
                   <label style={{
                     display: "block",
-                    color: "rgba(255,255,255,0.8)",
+                    color: isDarkMode ? "rgba(255,255,255,0.8)" : "rgba(31,41,55,0.9)",
                     fontSize: 14,
                     fontWeight: 600,
                     marginBottom: 8
@@ -357,7 +365,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                     <Lock size={18} style={{
                       position: "absolute",
                       left: 16,
-                      color: "rgba(255,255,255,0.5)"
+                      color: isDarkMode ? "rgba(255,255,255,0.5)" : "rgba(107,114,128,0.6)"
                     }} />
                     <input
                       type={showPassword ? "text" : "password"}
@@ -368,16 +376,16 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                       style={{
                         width: "100%",
                         padding: "14px 16px 14px 48px",
-                        background: "rgba(255,255,255,0.1)",
-                        border: "1px solid rgba(255,255,255,0.2)",
+                        background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.05)",
+                        border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
                         borderRadius: 12,
-                        color: "#fff",
+                        color: isDarkMode ? "#fff" : "#1f2937",
                         fontSize: 15,
                         outline: "none",
                         transition: "all 0.3s"
                       }}
-                      onFocus={(e) => e.target.style.borderColor = "#667eea"}
-                      onBlur={(e) => e.target.style.borderColor = "rgba(255,255,255,0.2)"}
+                      onFocus={(e) => e.target.style.borderColor = isDarkMode ? "#667eea" : "#8b5cf6"}
+                      onBlur={(e) => e.target.style.borderColor = isDarkMode ? "rgba(255,255,255,0.2)" : "rgba(139,92,246,0.2)"}
                     />
                   </div>
                 </motion.div>
