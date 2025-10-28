@@ -614,7 +614,7 @@ export default function Landing() {
                   <div style={{ padding: isMobile ? 16 : 20 }}>
                     <div style={{
                       fontSize: isMobile ? 11 : 12,
-                      color: "#667eea",
+                      color: isDarkMode ? "#667eea" : "#8b5cf6",
                       fontWeight: 600,
                       marginBottom: 8
                     }}>
@@ -623,14 +623,14 @@ export default function Landing() {
                     <h4 style={{
                       fontSize: isMobile ? 16 : 18,
                       fontWeight: 700,
-                      color: "#fff",
+                      color: isDarkMode ? "#fff" : "#1f2937",
                       margin: "0 0 8px 0"
                     }}>
                       {event.title}
                     </h4>
                     <p style={{
                       fontSize: isMobile ? 13 : 14,
-                      color: "rgba(255,255,255,0.6)",
+                      color: isDarkMode ? "rgba(255,255,255,0.6)" : "rgba(107,114,128,0.8)",
                       margin: 0
                     }}>
                       {event.venue}
@@ -681,7 +681,7 @@ export default function Landing() {
             </h3>
             <p style={{ 
               fontSize: isMobile ? 13 : 14, 
-              color: "rgba(255,255,255,0.7)", 
+              color: isDarkMode ? "rgba(255,255,255,0.7)" : "rgba(107,114,128,0.8)", 
               margin: 0 
             }}>
               {language === "en" ? "Learn more about us" : "Hakkımızda daha fazla bilgi"}
@@ -713,7 +713,7 @@ export default function Landing() {
             </h3>
             <p style={{ 
               fontSize: isMobile ? 13 : 14, 
-              color: "rgba(255,255,255,0.7)", 
+              color: isDarkMode ? "rgba(255,255,255,0.7)" : "rgba(107,114,128,0.8)", 
               margin: 0 
             }}>
               {language === "en" ? "Top listings & stories" : "En iyi ilanlar ve hikayeler"}
@@ -745,7 +745,7 @@ export default function Landing() {
             </h3>
             <p style={{ 
               fontSize: isMobile ? 13 : 14, 
-              color: "rgba(255,255,255,0.7)", 
+              color: isDarkMode ? "rgba(255,255,255,0.7)" : "rgba(107,114,128,0.8)", 
               margin: 0 
             }}>
               {language === "en" ? "Latest features & updates" : "En yeni özellikler ve güncellemeler"}
@@ -777,7 +777,7 @@ export default function Landing() {
             </h3>
             <p style={{ 
               fontSize: isMobile ? 13 : 14, 
-              color: "rgba(255,255,255,0.7)", 
+              color: isDarkMode ? "rgba(255,255,255,0.7)" : "rgba(107,114,128,0.8)", 
               margin: 0 
             }}>
               {language === "en" ? "Check platform status" : "Platform durumunu kontrol edin"}
@@ -809,7 +809,7 @@ export default function Landing() {
             </h3>
             <p style={{ 
               fontSize: isMobile ? 13 : 14, 
-              color: "rgba(255,255,255,0.7)", 
+              color: isDarkMode ? "rgba(255,255,255,0.7)" : "rgba(107,114,128,0.8)", 
               margin: 0 
             }}>
               {language === "en" ? "Frequently asked questions" : "Sıkça sorulan sorular"}
