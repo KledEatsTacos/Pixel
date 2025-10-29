@@ -1170,13 +1170,19 @@ export default function Topluluk() {
                   width: "90%",
                   maxWidth: 800,
                   maxHeight: "85vh",
-                  background: "linear-gradient(135deg, rgba(15,12,41,0.98) 0%, rgba(48,43,99,0.98) 100%)",
+                  background: isDarkMode 
+                    ? "linear-gradient(135deg, rgba(15,12,41,0.98) 0%, rgba(48,43,99,0.98) 100%)"
+                    : "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,249,250,0.98) 100%)",
                   backdropFilter: "blur(40px)",
-                  border: "1px solid rgba(255,255,255,0.2)",
+                  border: isDarkMode 
+                    ? "1px solid rgba(255,255,255,0.2)" 
+                    : "1px solid rgba(139,92,246,0.2)",
                   borderRadius: 32,
                   padding: 40,
                   overflowY: "auto",
-                  boxShadow: "0 30px 90px rgba(0,0,0,0.5)",
+                  boxShadow: isDarkMode 
+                    ? "0 30px 90px rgba(0,0,0,0.5)" 
+                    : "0 30px 90px rgba(139,92,246,0.3)",
                   position: "relative"
                 }}
               >
@@ -1189,15 +1195,15 @@ export default function Topluluk() {
                   position: "absolute",
                   top: 20,
                   right: 20,
-                  background: "rgba(255,255,255,0.1)",
-                  border: "1px solid rgba(255,255,255,0.2)",
+                  background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.1)",
+                  border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.2)",
                   borderRadius: 12,
                   padding: 10,
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#fff",
+                  color: isDarkMode ? "#fff" : "#1f2937",
                   zIndex: 1
                 }}
               >
@@ -1212,14 +1218,14 @@ export default function Topluluk() {
                   transition={{ delay: 0.1 }}
                   style={{
                     display: "inline-block",
-                    background: "rgba(102,126,234,0.2)",
-                    border: "1px solid rgba(102,126,234,0.4)",
+                    background: isDarkMode ? "rgba(102,126,234,0.2)" : "rgba(139,92,246,0.15)",
+                    border: isDarkMode ? "1px solid rgba(102,126,234,0.4)" : "1px solid rgba(139,92,246,0.3)",
                     borderRadius: 12,
                     padding: "8px 16px",
                     marginBottom: 20,
                     fontSize: 13,
                     fontWeight: 700,
-                    color: "#667eea",
+                    color: isDarkMode ? "#667eea" : "#8b5cf6",
                     textTransform: "capitalize"
                   }}
                 >
@@ -1235,7 +1241,7 @@ export default function Topluluk() {
                   style={{
                     fontSize: 36,
                     fontWeight: 800,
-                    color: "#fff",
+                    color: isDarkMode ? "#fff" : "#1f2937",
                     margin: 0,
                     marginBottom: 20,
                     lineHeight: 1.2
@@ -1260,22 +1266,22 @@ export default function Topluluk() {
                     alignItems: "center",
                     gap: 10,
                     fontSize: 15,
-                    color: "rgba(255,255,255,0.8)",
+                    color: isDarkMode ? "rgba(255,255,255,0.8)" : "rgba(31,41,55,0.9)",
                     fontWeight: 600
                   }}>
                     <div style={{
-                      background: "rgba(102,126,234,0.2)",
+                      background: isDarkMode ? "rgba(102,126,234,0.2)" : "rgba(139,92,246,0.15)",
                       borderRadius: 10,
                       padding: 8,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center"
                     }}>
-                      <User size={16} color="#667eea" />
+                      <User size={16} color={isDarkMode ? "#667eea" : "#8b5cf6"} />
                     </div>
                     {selectedPost.author}
                   </div>
-                  <div style={{ fontSize: 14, color: "rgba(255,255,255,0.6)" }}>
+                  <div style={{ fontSize: 14, color: isDarkMode ? "rgba(255,255,255,0.6)" : "rgba(107,114,128,0.7)" }}>
                     {selectedPost.time}
                   </div>
                   <div style={{
@@ -1283,7 +1289,7 @@ export default function Topluluk() {
                     alignItems: "center",
                     gap: 6,
                     fontSize: 14,
-                    color: "rgba(255,255,255,0.6)",
+                    color: isDarkMode ? "rgba(255,255,255,0.6)" : "rgba(107,114,128,0.7)",
                     fontWeight: 600
                   }}>
                     💬 {selectedPost.replies} {language === "tr" ? "yanıt" : "replies"}
@@ -1293,7 +1299,7 @@ export default function Topluluk() {
                     alignItems: "center",
                     gap: 6,
                     fontSize: 14,
-                    color: "rgba(255,255,255,0.6)",
+                    color: isDarkMode ? "rgba(255,255,255,0.6)" : "rgba(107,114,128,0.7)",
                     fontWeight: 600
                   }}>
                     👁️ {selectedPost.views} {language === "tr" ? "görüntülenme" : "views"}
@@ -1307,8 +1313,8 @@ export default function Topluluk() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 }}
                 style={{
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.1)",
+                  background: isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(139,92,246,0.05)",
+                  border: isDarkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(139,92,246,0.15)",
                   borderRadius: 20,
                   padding: 30,
                   marginBottom: 30
@@ -1317,7 +1323,7 @@ export default function Topluluk() {
                 <p style={{
                   fontSize: 16,
                   lineHeight: 1.8,
-                  color: "rgba(255,255,255,0.9)",
+                  color: isDarkMode ? "rgba(255,255,255,0.9)" : "rgba(31,41,55,0.95)",
                   margin: 0,
                   fontWeight: 500
                 }}>
@@ -1363,11 +1369,11 @@ export default function Topluluk() {
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   style={{
-                    background: "rgba(255,255,255,0.1)",
-                    border: "1px solid rgba(255,255,255,0.2)",
+                    background: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(139,92,246,0.1)",
+                    border: isDarkMode ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(139,92,246,0.3)",
                     borderRadius: 16,
                     padding: "16px 32px",
-                    color: "#fff",
+                    color: isDarkMode ? "#fff" : "#8b5cf6",
                     fontSize: 15,
                     fontWeight: 700,
                     cursor: "pointer",
