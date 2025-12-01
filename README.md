@@ -5,12 +5,18 @@ A modern, animated Craigslist-inspired web app built with React, TypeScript, and
 ## Features
 
 - 🎨 Modern UI with Framer Motion animations
-- � Beautiful landing page with gradient background
-- �🔍 Search functionality on the marketplace
+- 🌓 Dark/Light theme switching
+- 🌐 Multi-language support (English/Turkish)
+- 📍 Location-based content filtering with city selection
+- ✨ Beautiful landing page with gradient background
+- 📅 Interactive event calendar with location-specific events
+- 🔍 Search functionality on the marketplace
 - 📱 Responsive grid layout
 - 🏷️ Category browsing
 - 📋 Listing cards with images
+- 💬 Community page with forum-style posts
 - 🔀 React Router navigation between pages
+- 🔐 Login modal component
 
 ## Tech Stack
 
